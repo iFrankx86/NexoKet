@@ -5,6 +5,7 @@ utp\edu\pe\nexoket\jform\ItmRegistrarVenta$7.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$4.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$1.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$2.class
+utp\edu\pe\nexoket\jform\ItmRegistrarVenta$13.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta.class
 utp\edu\pe\nexoket\modelo\DetalleVenta.class
 utp\edu\pe\nexoket\modelo\ProductoBase.class
@@ -68,4 +69,5 @@ utp\edu\pe\nexoket\jform\InicioSesion$2.class
 utp\edu\pe\nexoket\dao\ProductoDAO.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$7.class
 utp\edu\pe\nexoket\test\EjemploProductosReales.class
+utp\edu\pe\nexoket\util\GeneradorBoletaPDF.class
 utp\edu\pe\nexoket\jform\ItmRegistrarStock.class
