@@ -99,6 +99,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuRegistro.add(MnItemClientes);
 
         MnItemProveedores.setText("Proveedores");
+        MnItemProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnItemProveedoresActionPerformed(evt);
+            }
+        });
         MenuRegistro.add(MnItemProveedores);
 
         MnItmRegistrarStock.setText("Stock");
@@ -225,6 +230,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(clientesForm);
     }//GEN-LAST:event_MnItemClientesActionPerformed
 
+    private void MnItemProveedoresActionPerformed(java.awt.event.ActionEvent evt) {
+        ItmProovedores proveedoresForm = new ItmProovedores();
+        proveedoresForm.setVisible(true);
+        escritorio.add(proveedoresForm);
+    }
+    
     private void MnItmRegistrarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnItmRegistrarStockActionPerformed
         ItmRegistrarStock registrarStockForm = new ItmRegistrarStock();
         registrarStockForm.setVisible(true);

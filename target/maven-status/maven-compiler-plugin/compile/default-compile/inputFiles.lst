@@ -5,6 +5,7 @@ C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoke
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ProductoFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\SesionUsuario.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\MenuPrincipal.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\Proveedor.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\VentaDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ClienteDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoAbarrote.java
@@ -19,14 +20,17 @@ C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoke
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\Registrar.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\test\EjemploProductosReales.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\Cliente.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmProovedores.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoLacteo.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\INexoKet\IClienteFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\INexoKet\IProductoFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmRegistrarStock.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ProveedorFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\InicioSesion.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\GeneradorBoletaPDF.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\Venta.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\DetalleVenta.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ProveedorDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\NexoKet.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmClientes.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ClienteFacade.java
