@@ -1,11 +1,15 @@
+utp\edu\pe\nexoket\jform\ItmReportes$3.class
 utp\edu\pe\nexoket\jform\InicioSesion$3.class
+utp\edu\pe\nexoket\jform\ItmReportes.class
 utp\edu\pe\nexoket\modelo\Venta.class
 utp\edu\pe\nexoket\modelo\Proveedor.class
 utp\edu\pe\nexoket\modelo\ProductoAbarrote.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$7.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$4.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$1.class
+utp\edu\pe\nexoket\jform\MenuPrincipal$11.class
 utp\edu\pe\nexoket\jform\ItmProovedores$7.class
+utp\edu\pe\nexoket\jform\ItmReportes$ClienteCompras.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$2.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$13.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta.class
@@ -25,6 +29,7 @@ utp\edu\pe\nexoket\jform\ItmRegistrarVenta$2.class
 utp\edu\pe\nexoket\dao\VentaDAO.class
 utp\edu\pe\nexoket\jform\ItmProductos$8.class
 utp\edu\pe\nexoket\modelo\ProductoBebida.class
+utp\edu\pe\nexoket\jform\ItmReportes$ProductoVendido.class
 utp\edu\pe\nexoket\jform\ItmProductos$1.class
 utp\edu\pe\nexoket\modelo\Producto.class
 utp\edu\pe\nexoket\modelo\User.class
@@ -66,6 +71,7 @@ utp\edu\pe\nexoket\util\SesionUsuario.class
 utp\edu\pe\nexoket\db\MongoDBConnection.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$5.class
 utp\edu\pe\nexoket\jform\ItmProovedores.class
+utp\edu\pe\nexoket\jform\ItmReportes$1.class
 utp\edu\pe\nexoket\dao\ClienteDAO.class
 utp\edu\pe\nexoket\Facade\ProductoFacade.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$1.class
@@ -81,6 +87,7 @@ utp\edu\pe\nexoket\jform\InicioSesion$1.class
 utp\edu\pe\nexoket\jform\MenuPrincipal.class
 utp\edu\pe\nexoket\NexoKet.class
 utp\edu\pe\nexoket\jform\ItmClientes$1.class
+utp\edu\pe\nexoket\jform\ItmReportes$2.class
 utp\edu\pe\nexoket\jform\InicioSesion$2.class
 utp\edu\pe\nexoket\dao\ProductoDAO.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$7.class

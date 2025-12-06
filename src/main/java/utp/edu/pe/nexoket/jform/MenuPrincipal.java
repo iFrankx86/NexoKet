@@ -168,6 +168,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuReportes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         MnItemConsulta.setText("Agente de Consulta");
+        MnItemConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnItemConsultaActionPerformed(evt);
+            }
+        });
         MenuReportes.add(MnItemConsulta);
 
         menuBar.add(MenuReportes);
@@ -254,6 +259,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         historialForm.setVisible(true);
         escritorio.add(historialForm);
     }//GEN-LAST:event_MnItemHistorialVentasActionPerformed
+    
+    private void MnItemConsultaActionPerformed(java.awt.event.ActionEvent evt) {
+        ItmReportes reportesForm = new ItmReportes();
+        reportesForm.setVisible(true);
+        escritorio.add(reportesForm);
+    }
 
     /**
      * @param args the command line arguments
