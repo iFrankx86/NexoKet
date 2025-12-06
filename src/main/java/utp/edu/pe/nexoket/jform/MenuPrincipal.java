@@ -49,6 +49,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MnItmRegistrarStock = new javax.swing.JMenuItem();
         MenuVentas = new javax.swing.JMenu();
         MnItemRegistrarVenta = new javax.swing.JMenuItem();
+        MnItemHistorialVentas = new javax.swing.JMenuItem();
         MenuCompras = new javax.swing.JMenu();
         MnItemAgregarProductos = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JMenu();
@@ -122,6 +123,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         MenuVentas.add(MnItemRegistrarVenta);
+
+        MnItemHistorialVentas.setText("Historial de Ventas");
+        MnItemHistorialVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnItemHistorialVentasActionPerformed(evt);
+            }
+        });
+        MenuVentas.add(MnItemHistorialVentas);
 
         menuBar.add(MenuVentas);
 
@@ -229,6 +238,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(registrarVentaForm);
     }//GEN-LAST:event_MnItemRegistrarVentaActionPerformed
 
+    private void MnItemHistorialVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnItemHistorialVentasActionPerformed
+        ItmHistorialVentas historialForm = new ItmHistorialVentas();
+        historialForm.setVisible(true);
+        escritorio.add(historialForm);
+    }//GEN-LAST:event_MnItemHistorialVentasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -279,6 +294,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MnItemProductos;
     private javax.swing.JMenuItem MnItemProveedores;
     private javax.swing.JMenuItem MnItemRegistrarVenta;
+    private javax.swing.JMenuItem MnItemHistorialVentas;
     private javax.swing.JMenuItem MnItemSalir;
     private javax.swing.JMenuItem MnItmRegistrarStock;
     private javax.swing.JDesktopPane escritorio;

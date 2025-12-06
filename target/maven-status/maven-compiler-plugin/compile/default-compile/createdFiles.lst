@@ -15,6 +15,7 @@ utp\edu\pe\nexoket\jform\ItmClientes.class
 utp\edu\pe\nexoket\jform\Registrar$3.class
 utp\edu\pe\nexoket\jform\ItmClientes$2.class
 utp\edu\pe\nexoket\util\WebcamBarcodeScanner$ScannerCallback.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas$5.class
 utp\edu\pe\nexoket\jform\ItmProductos$3.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$5.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$2.class
@@ -27,6 +28,7 @@ utp\edu\pe\nexoket\modelo\User.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$4.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$11.class
 utp\edu\pe\nexoket\jform\InicioSesion$4.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas$1.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$9.class
 utp\edu\pe\nexoket\jform\InicioSesion.class
 utp\edu\pe\nexoket\jform\ItmProductos$2.class
@@ -35,6 +37,7 @@ utp\edu\pe\nexoket\jform\ItmRegistrarVenta$3.class
 utp\edu\pe\nexoket\dao\UserDAO.class
 utp\edu\pe\nexoket\jform\Registrar$1.class
 utp\edu\pe\nexoket\util\WebcamBarcodeScanner.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas.class
 utp\edu\pe\nexoket\Facade\INexoKet\IProductoFacade.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$12.class
 utp\edu\pe\nexoket\Facade\VentaFacade.class
@@ -43,6 +46,8 @@ utp\edu\pe\nexoket\jform\MenuPrincipal$6.class
 utp\edu\pe\nexoket\Facade\ClienteFacade.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$3.class
 utp\edu\pe\nexoket\modelo\ProductoSnack.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas$4.class
+utp\edu\pe\nexoket\jform\MenuPrincipal$9.class
 utp\edu\pe\nexoket\jform\Registrar$2.class
 utp\edu\pe\nexoket\jform\ItmProductos$7.class
 utp\edu\pe\nexoket\jform\Registrar.class
@@ -57,6 +62,7 @@ utp\edu\pe\nexoket\Facade\ProductoFacade.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$1.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$8.class
 utp\edu\pe\nexoket\jform\Registrar$4.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas$2.class
 utp\edu\pe\nexoket\jform\ItmProductos$5.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$6.class
 utp\edu\pe\nexoket\jform\ItmProductos$4.class
@@ -68,6 +74,7 @@ utp\edu\pe\nexoket\jform\ItmClientes$1.class
 utp\edu\pe\nexoket\jform\InicioSesion$2.class
 utp\edu\pe\nexoket\dao\ProductoDAO.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$7.class
+utp\edu\pe\nexoket\jform\ItmHistorialVentas$3.class
 utp\edu\pe\nexoket\test\EjemploProductosReales.class
 utp\edu\pe\nexoket\util\GeneradorBoletaPDF.class
 utp\edu\pe\nexoket\jform\ItmRegistrarStock.class
