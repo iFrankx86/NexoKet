@@ -13,7 +13,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.text.DecimalFormat;
@@ -48,23 +50,26 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         // Configurar tabla
         configurarTabla();
         
-        // Configurar ComboBox de estados
+        // Configurar ComboBox de estados (Vendedor label pero filtra por estado)
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Todos");
         jComboBox1.addItem("Completada");
         jComboBox1.addItem("Cancelada");
         
-        // Configurar ComboBox de vendedores (por ahora solo "Todos")
+        // Configurar ComboBox de clientes
         jComboBox2.removeAllItems();
         jComboBox2.addItem("Todos");
         
-        // Configurar campo de fecha
-        txtFecha.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        // Configurar DateChooser de fecha (sin fecha por defecto para mostrar todos)
+        dtchFechaFiltro.setDate(null);
+        dtchFechaFiltro.setDateFormatString("dd/MM/yyyy");
         
         // Agregar listeners para filtros
         jComboBox1.addActionListener(e -> aplicarFiltros());
         jComboBox2.addActionListener(e -> aplicarFiltros());
-        txtFecha.addActionListener(e -> aplicarFiltros());
+        
+        // Listener para el DateChooser
+        dtchFechaFiltro.addPropertyChangeListener("date", evt -> aplicarFiltros());
     }
     
     /**
@@ -141,9 +146,24 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         
         // Filtrar por estado
         String estadoSeleccionado = (String) jComboBox1.getSelectedItem();
-        if (!"Todos".equals(estadoSeleccionado)) {
+        if (estadoSeleccionado != null && !"Todos".equals(estadoSeleccionado)) {
             ventasFiltradas = ventasFiltradas.stream()
                 .filter(v -> estadoSeleccionado.equals(v.getEstado()))
+                .collect(Collectors.toList());
+        }
+        
+        // Filtrar por fecha
+        Date fechaSeleccionada = dtchFechaFiltro.getDate();
+        if (fechaSeleccionada != null) {
+            LocalDate fechaFiltro = fechaSeleccionada.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            
+            ventasFiltradas = ventasFiltradas.stream()
+                .filter(v -> {
+                    LocalDate fechaVenta = v.getFechaEmision().toLocalDate();
+                    return fechaVenta.isEqual(fechaFiltro);
+                })
                 .collect(Collectors.toList());
         }
         
@@ -165,12 +185,12 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         btnReImprimirBoleta = new javax.swing.JButton();
         btnAnularVenta = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        dtchFechaFiltro = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setTitle("Historial de Ventas");
@@ -233,8 +253,8 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(dtchFechaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -257,16 +277,17 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerDetalle)
-                    .addComponent(btnReImprimirBoleta)
-                    .addComponent(btnAnularVenta)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnVerDetalle)
+                        .addComponent(btnReImprimirBoleta)
+                        .addComponent(btnAnularVenta)
+                        .addComponent(jLabel1)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3))
+                    .addComponent(dtchFechaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -536,6 +557,7 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAnularVenta;
     private javax.swing.JButton btnReImprimirBoleta;
     private javax.swing.JButton btnVerDetalle;
+    private com.toedter.calendar.JDateChooser dtchFechaFiltro;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -544,6 +566,5 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 }
