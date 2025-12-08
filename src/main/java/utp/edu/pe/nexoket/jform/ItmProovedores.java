@@ -243,6 +243,9 @@ public class ItmProovedores extends javax.swing.JInternalFrame {
         btnLimpiarTXT = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Proveedores");
 
         tblProovedores.setModel(new javax.swing.table.DefaultTableModel(
@@ -259,11 +262,6 @@ public class ItmProovedores extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblProovedores);
 
         btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -273,11 +271,6 @@ public class ItmProovedores extends javax.swing.JInternalFrame {
         });
 
         btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
 
         txtRUC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,11 +291,6 @@ public class ItmProovedores extends javax.swing.JInternalFrame {
         jLabel6.setText("Filtrar");
 
         btnLimpiarTXT.setText("Limpiar");
-        btnLimpiarTXT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarTXTActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

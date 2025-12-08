@@ -101,6 +101,8 @@ public class ItmProductos extends javax.swing.JInternalFrame {
         txtRegistroEscaner = new javax.swing.JTextField();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("Registrar Producto");
 
@@ -115,18 +117,8 @@ public class ItmProductos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblProductos);
 
         btnActualizar.setText("Actualizar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
 
         btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
 
         txtNombre.setText("Nombre:");
 

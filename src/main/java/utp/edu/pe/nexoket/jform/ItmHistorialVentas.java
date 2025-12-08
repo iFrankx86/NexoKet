@@ -8,15 +8,18 @@ import utp.edu.pe.nexoket.Facade.VentaFacade;
 import utp.edu.pe.nexoket.modelo.Venta;
 import utp.edu.pe.nexoket.modelo.DetalleVenta;
 import utp.edu.pe.nexoket.util.GeneradorBoletaPDF;
+import utp.edu.pe.nexoket.util.MonitorRendimiento;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.text.DecimalFormat;
 
@@ -26,18 +29,45 @@ import java.text.DecimalFormat;
  */
 public class ItmHistorialVentas extends javax.swing.JInternalFrame {
 
+    private static final Logger logger = LoggerFactory.getLogger(ItmHistorialVentas.class);
+    private MonitorRendimiento monitor;
+    
     private VentaFacade ventaFacade;
     private DefaultTableModel modeloTabla;
     private DecimalFormat formatoMoneda;
     private List<Venta> ventasActuales;
     
+    // Componentes de monitoreo visual
+    private JLabel lblIndicadorSistema;
+    private Timer timerActualizacion;
+    
     /**
      * Creates new form ItmHistorialVentas
      */
     public ItmHistorialVentas() {
-        initComponents();
-        inicializarComponentes();
-        cargarVentas();
+        logger.info("═══════════════════════════════════════════════════");
+        logger.info("Iniciando ItmHistorialVentas");
+        logger.info("═══════════════════════════════════════════════════");
+        long tiempoInicio = System.currentTimeMillis();
+        
+        try {
+            initComponents();
+            inicializarComponentes();
+            agregarIndicadorSistema();
+            cargarVentas();
+            
+            monitor = MonitorRendimiento.getInstancia();
+            monitor.verificarSaludSistema();
+            
+            long tiempoFin = System.currentTimeMillis();
+            logger.info("✓ ItmHistorialVentas cargado exitosamente en {} ms", (tiempoFin - tiempoInicio));
+            monitor.logearMetricas();
+            logger.info("═══════════════════════════════════════════════════\n");
+            
+        } catch (Exception e) {
+            logger.error("✗ Error crítico al inicializar ItmHistorialVentas", e);
+            throw e;
+        }
     }
     
     /**
@@ -142,6 +172,10 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
     private void aplicarFiltros() {
         if (ventasActuales == null) return;
         
+        long tiempoInicio = System.currentTimeMillis();
+        logger.debug("Aplicando filtros - Estado: {}, Fecha: {}", 
+            jComboBox1.getSelectedItem(), dtchFechaFiltro.getDate());
+        
         List<Venta> ventasFiltradas = ventasActuales;
         
         // Filtrar por estado
@@ -168,6 +202,204 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         }
         
         actualizarTabla(ventasFiltradas);
+        
+        long duracion = System.currentTimeMillis() - tiempoInicio;
+        logger.info("✓ Filtros aplicados: {} resultados en {} ms", ventasFiltradas.size(), duracion);
+    }
+    
+    /**
+     * Agrega un indicador discreto del estado del sistema
+     */
+    private void agregarIndicadorSistema() {
+        logger.debug("Inicializando indicador de sistema");
+        
+        // SOLUCIÓN: Agregar al título existente (jLabel4)
+        try {
+            // Modificar el texto del título para incluir el indicador
+            String tituloOriginal = jLabel4.getText();
+            
+            // Crear indicador simple en el título
+            lblIndicadorSistema = new JLabel(" ● ");
+            lblIndicadorSistema.setFont(new Font("Arial", Font.BOLD, 18));
+            lblIndicadorSistema.setForeground(new Color(40, 167, 69)); // Verde
+            lblIndicadorSistema.setToolTipText("Sistema: Normal - Click para ver detalles");
+            lblIndicadorSistema.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            
+            // Evento click
+            lblIndicadorSistema.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    mostrarDetallesMonitoreo();
+                }
+            });
+            
+            // Crear panel horizontal para título + indicador
+            JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+            panelTitulo.setOpaque(false);
+            panelTitulo.add(jLabel4);
+            panelTitulo.add(lblIndicadorSistema);
+            
+            // Reemplazar jLabel4 con el panel
+            Container parent = jLabel4.getParent();
+            if (parent != null) {
+                // Obtener constraints del layout
+                parent.remove(jLabel4);
+                parent.add(panelTitulo);
+                parent.revalidate();
+                parent.repaint();
+                logger.info("✓ Indicador agregado al título");
+            }
+            
+        } catch (Exception e) {
+            logger.warn("No se pudo agregar indicador al título, usando alternativa");
+            
+            // ALTERNATIVA: Agregar como ventana flotante
+            lblIndicadorSistema = new JLabel(" ● SISTEMA: Normal ");
+            lblIndicadorSistema.setFont(new Font("Segoe UI", Font.BOLD, 11));
+            lblIndicadorSistema.setForeground(new Color(40, 167, 69));
+            lblIndicadorSistema.setOpaque(true);
+            lblIndicadorSistema.setBackground(new Color(240, 240, 240));
+            lblIndicadorSistema.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(3, 8, 3, 8)
+            ));
+            lblIndicadorSistema.setToolTipText("Click para ver detalles del sistema");
+            lblIndicadorSistema.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            
+            lblIndicadorSistema.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    mostrarDetallesMonitoreo();
+                }
+            });
+            
+            // Posicionar en esquina superior derecha
+            lblIndicadorSistema.setBounds(
+                getWidth() - 180, 
+                10, 
+                170, 
+                25
+            );
+            
+            // Agregar al layered pane (siempre visible)
+            getLayeredPane().add(lblIndicadorSistema, JLayeredPane.PALETTE_LAYER);
+            logger.info("✓ Indicador agregado como componente flotante");
+        }
+        
+        // Timer para actualizar cada 10 segundos
+        final JLabel indicador = lblIndicadorSistema; // Referencia final
+        timerActualizacion = new Timer(10000, e -> {
+            if (monitor == null) return;
+            
+            MonitorRendimiento.EstadoSistema estado = monitor.getEstadoActual();
+            String textoEstado = "";
+            Color color;
+            
+            switch (estado) {
+                case NORMAL:
+                    textoEstado = " ● SISTEMA: Normal ";
+                    color = new Color(40, 167, 69); // Verde
+                    indicador.setToolTipText("Sistema: Normal - Click para ver detalles");
+                    break;
+                case ADVERTENCIA:
+                    textoEstado = " ● SISTEMA: Advertencia ";
+                    color = new Color(255, 193, 7); // Amarillo
+                    indicador.setToolTipText("Sistema: Advertencia - Click para ver detalles");
+                    break;
+                case CRITICO:
+                    textoEstado = " ● SISTEMA: CRÍTICO ";
+                    color = new Color(220, 53, 69); // Rojo
+                    indicador.setToolTipText("Sistema: CRÍTICO - Click para ver detalles");
+                    // Parpadear en crítico
+                    indicador.setVisible(!indicador.isVisible());
+                    break;
+                default:
+                    textoEstado = " ● SISTEMA: Normal ";
+                    color = new Color(40, 167, 69);
+            }
+            
+            indicador.setText(textoEstado);
+            indicador.setForeground(color);
+        });
+        timerActualizacion.start();
+        
+        logger.info("✓ Sistema de monitoreo visual inicializado");
+    }
+    
+    /**
+     * Actualiza el indicador visual del sistema
+     */
+    private void actualizarIndicador() {
+        if (monitor == null) return;
+        
+        MonitorRendimiento.EstadoSistema estado = monitor.getEstadoActual();
+        
+        switch (estado) {
+            case NORMAL:
+                lblIndicadorSistema.setForeground(new Color(40, 167, 69)); // Verde
+                lblIndicadorSistema.setToolTipText("Sistema: Normal");
+                lblIndicadorSistema.setVisible(true);
+                break;
+            case ADVERTENCIA:
+                lblIndicadorSistema.setForeground(new Color(255, 193, 7)); // Amarillo
+                lblIndicadorSistema.setToolTipText("Sistema: Advertencia - Click para detalles");
+                lblIndicadorSistema.setVisible(true);
+                break;
+            case CRITICO:
+                lblIndicadorSistema.setForeground(new Color(220, 53, 69)); // Rojo
+                lblIndicadorSistema.setToolTipText("Sistema: Crítico - Click para detalles");
+                // Parpadear si es crítico
+                lblIndicadorSistema.setVisible(!lblIndicadorSistema.isVisible());
+                break;
+        }
+    }
+    
+    /**
+     * Muestra detalles de monitoreo cuando el usuario hace click
+     */
+    private void mostrarDetallesMonitoreo() {
+        logger.info("Usuario consultó estado del sistema");
+        
+        if (monitor == null) {
+            JOptionPane.showMessageDialog(this,
+                "Monitor no disponible",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        Map<String, Object> metricas = monitor.obtenerMetricas();
+        
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("═══ ESTADO DEL SISTEMA ═══\n\n");
+        mensaje.append(String.format("🖥️  Estado: %s\n\n", monitor.getEstadoActual()));
+        mensaje.append(String.format("💾 Memoria: %.1f%% (%d/%d MB)\n",
+            metricas.get("memoria_porcentaje"),
+            metricas.get("memoria_usada_mb"),
+            metricas.get("memoria_maxima_mb")));
+        mensaje.append(String.format("🔀 Hilos activos: %d\n", metricas.get("hilos_activos")));
+        mensaje.append(String.format("⚙️  Procesadores: %d\n", metricas.get("procesadores")));
+        mensaje.append(String.format("⏱️  Tiempo ejecución: %d min\n", 
+            (long)metricas.get("tiempo_ejecucion_ms") / 60000));
+        mensaje.append("\n📄 Los logs se guardan en: logs/nexoket.log");
+        
+        JOptionPane.showMessageDialog(this,
+            mensaje.toString(),
+            "Monitor del Sistema",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    @Override
+    public void dispose() {
+        logger.info("Cerrando ItmHistorialVentas");
+        
+        if (timerActualizacion != null) {
+            timerActualizacion.stop();
+            logger.debug("Timer de monitoreo detenido");
+        }
+        
+        super.dispose();
+        logger.info("ItmHistorialVentas cerrado correctamente\n");
     }
 
     /**
@@ -193,6 +425,9 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         dtchFechaFiltro = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Historial de Ventas");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -297,9 +532,12 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetalleActionPerformed
+        logger.info("❯ Usuario solicitó ver detalle de venta");
+        
         int filaSeleccionada = jTable1.getSelectedRow();
         
         if (filaSeleccionada == -1) {
+            logger.warn("Intento de ver detalle sin selección de fila");
             JOptionPane.showMessageDialog(this,
                 "Por favor, seleccione una venta de la tabla",
                 "Advertencia",
@@ -308,9 +546,12 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         }
         
         String numeroVenta = (String) modeloTabla.getValueAt(filaSeleccionada, 0);
+        logger.info("Cargando detalle de venta: {}", numeroVenta);
+        
         Venta venta = ventaFacade.buscarVenta(numeroVenta);
         
         if (venta == null) {
+            logger.error("✗ Venta no encontrada: {}", numeroVenta);
             JOptionPane.showMessageDialog(this,
                 "No se encontró la venta seleccionada",
                 "Error",
@@ -318,6 +559,7 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
             return;
         }
         
+        logger.info("✓ Mostrando detalle de venta: {}", numeroVenta);
         mostrarDetalleVenta(venta);
     }//GEN-LAST:event_btnVerDetalleActionPerformed
     
@@ -425,9 +667,12 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
      * Re-imprime la boleta de una venta seleccionada
      */
     private void btnReImprimirBoletaActionPerformed(java.awt.event.ActionEvent evt) {
+        logger.info("❯ Usuario solicitó re-imprimir boleta");
+        
         int filaSeleccionada = jTable1.getSelectedRow();
         
         if (filaSeleccionada == -1) {
+            logger.warn("Intento de re-imprimir boleta sin selección");
             JOptionPane.showMessageDialog(this,
                 "Por favor, seleccione una venta de la tabla",
                 "Advertencia",
@@ -436,6 +681,8 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         }
         
         String numeroVenta = (String) modeloTabla.getValueAt(filaSeleccionada, 0);
+        logger.info("Buscando venta para re-imprimir: {}", numeroVenta);
+        
         Venta venta = ventaFacade.buscarVenta(numeroVenta);
         
         if (venta == null) {
@@ -461,9 +708,11 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
                 rutaArchivo += ".pdf";
             }
             
+            logger.info("Generando PDF en: {}", rutaArchivo);
             boolean exito = GeneradorBoletaPDF.generarBoletaPDF(venta, rutaArchivo);
             
             if (exito) {
+                logger.info("✓ Boleta re-impresa exitosamente: {}", rutaArchivo);
                 int opcion = JOptionPane.showOptionDialog(this,
                     "Boleta re-impresa exitosamente en:\\n" + rutaArchivo + "\\n\\n¿Desea abrir el PDF?",
                     "PDF Generado",
@@ -486,6 +735,7 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
                     }
                 }
             } else {
+                logger.error("✗ Error al generar PDF para venta: {}", numeroVenta);
                 JOptionPane.showMessageDialog(this,
                     "Error al generar el PDF.\\nVerifique la librería iText.",
                     "Error",
@@ -498,9 +748,12 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
      * Anula una venta seleccionada
      */
     private void btnAnularVentaActionPerformed(java.awt.event.ActionEvent evt) {
+        logger.warn("❯ Usuario solicitó anular venta");
+        
         int filaSeleccionada = jTable1.getSelectedRow();
         
         if (filaSeleccionada == -1) {
+            logger.warn("Intento de anular venta sin selección");
             JOptionPane.showMessageDialog(this,
                 "Por favor, seleccione una venta de la tabla",
                 "Advertencia",
@@ -511,8 +764,11 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         String numeroVenta = (String) modeloTabla.getValueAt(filaSeleccionada, 0);
         String estadoActual = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
         
+        logger.info("Intentando anular venta: {} (Estado: {})", numeroVenta, estadoActual);
+        
         // Validar que la venta no esté ya cancelada
         if ("Cancelada".equals(estadoActual)) {
+            logger.warn("Venta ya está cancelada: {}", numeroVenta);
             JOptionPane.showMessageDialog(this,
                 "Esta venta ya está cancelada",
                 "Advertencia",
@@ -534,9 +790,11 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
         }
         
         // Anular venta
+        logger.info("Ejecutando anulación de venta: {}", numeroVenta);
         boolean exito = ventaFacade.cancelarVenta(numeroVenta);
         
         if (exito) {
+            logger.info("✓ Venta anulada exitosamente: {}", numeroVenta);
             JOptionPane.showMessageDialog(this,
                 "Venta anulada exitosamente.\\nEl stock ha sido devuelto.",
                 "Éxito",
@@ -544,7 +802,13 @@ public class ItmHistorialVentas extends javax.swing.JInternalFrame {
             
             // Recargar ventas
             cargarVentas();
+            
+            // Log de métricas después de operación importante
+            if (monitor != null) {
+                monitor.logearMetricas();
+            }
         } else {
+            logger.error("✗ Error al anular venta: {}", numeroVenta);
             JOptionPane.showMessageDialog(this,
                 "Error al anular la venta.\\nIntente nuevamente.",
                 "Error",

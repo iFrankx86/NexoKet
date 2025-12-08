@@ -225,6 +225,10 @@ public class ItmReportes extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Agente de Consulta");
 
         jLabel1.setText("Tipo de Reporte:");

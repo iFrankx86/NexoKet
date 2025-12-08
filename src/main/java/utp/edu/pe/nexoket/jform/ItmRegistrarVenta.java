@@ -231,16 +231,14 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         btnInsertarProductoTabla = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Registro de Venta");
 
         jLabel1.setText("Numero de Boleta");
 
         btnGenerarNumeroDeBoleta.setText("Generar");
-        btnGenerarNumeroDeBoleta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarNumeroDeBoletaActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Fecha de Emision");
 
@@ -269,11 +267,6 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel10.setText("Modo Manual");
 
         jButton3.setText("Buscar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jLabel11.setText("Nombre Producto");
 
@@ -284,11 +277,6 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel14.setText("Cantidad");
 
         btnEliminarItemTablaxFila.setText("Eliminar");
-        btnEliminarItemTablaxFila.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarItemActionPerformed(evt);
-            }
-        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel15.setText("DATOS CLIENTE");
@@ -307,11 +295,6 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel17.setText("Telefono");
 
         jButton4.setText("Escanear");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         jLabel18.setText("SubTotal");
 

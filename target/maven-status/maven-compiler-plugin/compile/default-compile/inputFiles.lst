@@ -22,6 +22,7 @@ C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoke
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\Cliente.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmProovedores.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoLacteo.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\test\TestMonitoreo.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\INexoKet\IClienteFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\INexoKet\IProductoFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmRegistrarStock.java
@@ -33,6 +34,7 @@ C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoke
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\DetalleVenta.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ProveedorDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\NexoKet.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\MonitorRendimiento.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmClientes.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ClienteFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\User.java

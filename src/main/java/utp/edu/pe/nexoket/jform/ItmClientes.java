@@ -70,7 +70,9 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         btnLimpiarCampos = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Clientes");
         setToolTipText("");
 
