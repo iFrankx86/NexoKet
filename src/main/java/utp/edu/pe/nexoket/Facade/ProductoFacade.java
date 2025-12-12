@@ -17,8 +17,8 @@ public class ProductoFacade implements IProductoFacade {
     @Override
     public boolean registrarProducto(String codigo, String nombre, String marca, String categoria, 
                                    String subcategoria, String unidadMedida, int cantidadPorUnidad,
-                                   String descripcion, double precio, int stock, int stockMinimo, 
-                                   String proveedor, Date fechaVencimiento, String ubicacion) {
+                                   boolean aplicaIGV, String descripcion, double precio, int stock, int stockMinimo, 
+                                   String proveedor, Date fechaVencimiento, String ubicacion, boolean activo) {
         try {
             // Verificar si ya existe un producto con ese código
             Producto existente = productoDAO.consultarProducto(codigo);
@@ -37,6 +37,8 @@ public class ProductoFacade implements IProductoFacade {
                                            subcategoria, unidadMedida, cantidadPorUnidad, 
                                            precio, stock, stockMinimo, proveedor, 
                                            fechaVencimiento, ubicacion);
+            producto.setAplicaIGV(aplicaIGV);
+            producto.setActivo(activo);
             
             productoDAO.registrarProducto(producto);
             return true;
@@ -69,9 +71,13 @@ public class ProductoFacade implements IProductoFacade {
     @Override
     public boolean actualizarProducto(String codigo, String nombre, String marca, String categoria, 
                                     String subcategoria, String unidadMedida, int cantidadPorUnidad,
-                                    String descripcion, double precio, int stock, int stockMinimo, 
-                                    String proveedor, Date fechaVencimiento, String ubicacion) {
+                                    boolean aplicaIGV, String descripcion, double precio, int stock, int stockMinimo, 
+                                    String proveedor, Date fechaVencimiento, String ubicacion, boolean activo) {
         try {
+            System.out.println("=== FACADE: Actualizando producto " + codigo + " ===");
+            System.out.println("FACADE: aplicaIGV recibido = " + aplicaIGV);
+            System.out.println("FACADE: activo recibido = " + activo);
+            
             // Validaciones básicas
             if (codigo == null || codigo.trim().isEmpty() || 
                 nombre == null || nombre.trim().isEmpty() || 
@@ -83,6 +89,11 @@ public class ProductoFacade implements IProductoFacade {
                                            subcategoria, unidadMedida, cantidadPorUnidad, 
                                            precio, stock, stockMinimo, proveedor, 
                                            fechaVencimiento, ubicacion);
+            producto.setAplicaIGV(aplicaIGV);
+            producto.setActivo(activo);
+            
+            System.out.println("FACADE: Producto creado con aplicaIGV = " + producto.isAplicaIGV());
+            System.out.println("FACADE: Producto creado con activo = " + producto.isActivo());
             
             productoDAO.actualizarProducto(codigo, producto);
             return true;

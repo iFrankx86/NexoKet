@@ -42,6 +42,7 @@ public class ProductoDAO {
                 .append("proveedor", producto.getProveedor())
                 .append("fechaVencimiento", producto.getFechaVencimiento())
                 .append("ubicacion", producto.getUbicacion())
+                .append("aplicaIGV", producto.isAplicaIGV())
                 .append("activo", producto.isActivo())
                 .append("fechaCreacion", producto.getFechaCreacion())
                 .append("fechaActualizacion", producto.getFechaActualizacion());
@@ -199,6 +200,10 @@ public class ProductoDAO {
 
     // Actualizar producto
     public void actualizarProducto(String codigo, Producto productoActualizado) {
+        System.out.println("=== DAO: Actualizando producto " + codigo + " ===");
+        System.out.println("DAO: aplicaIGV = " + productoActualizado.isAplicaIGV());
+        System.out.println("DAO: activo = " + productoActualizado.isActivo());
+        
         Document query = new Document("codigo", codigo);
         Document nuevosDatos = new Document("nombre", productoActualizado.getNombre())
                 .append("descripcion", productoActualizado.getDescripcion())
@@ -213,9 +218,29 @@ public class ProductoDAO {
                 .append("proveedor", productoActualizado.getProveedor())
                 .append("fechaVencimiento", productoActualizado.getFechaVencimiento())
                 .append("ubicacion", productoActualizado.getUbicacion())
+                .append("aplicaIGV", productoActualizado.isAplicaIGV())
                 .append("activo", productoActualizado.isActivo())
                 .append("fechaActualizacion", new Date());
+        
+        System.out.println("DAO: Documento ANTES de enviar a MongoDB:");
+        System.out.println("  - aplicaIGV en documento: " + nuevosDatos.get("aplicaIGV"));
+        System.out.println("  - activo en documento: " + nuevosDatos.get("activo"));
+        System.out.println("DAO: JSON completo: " + nuevosDatos.toJson());
+        
         collection.updateOne(query, new Document("$set", nuevosDatos));
+        System.out.println("DAO: updateOne() ejecutado");
+        
+        // VERIFICACIÓN INMEDIATA: Leer el documento que acabamos de actualizar
+        Document docVerificacion = collection.find(query).first();
+        if (docVerificacion != null) {
+            System.out.println("DAO VERIFICACIÓN: Documento DESPUÉS de actualizar en MongoDB:");
+            System.out.println("  - aplicaIGV en MongoDB: " + docVerificacion.get("aplicaIGV"));
+            System.out.println("  - activo en MongoDB: " + docVerificacion.get("activo"));
+        } else {
+            System.err.println("DAO ERROR: No se pudo leer el documento después de actualizar");
+        }
+        
+        System.out.println("DAO: Actualización completada");
     }
 
     // Actualizar solo el stock
@@ -365,6 +390,16 @@ public class ProductoDAO {
             String proveedor = doc.getString("proveedor");
             String ubicacion = doc.getString("ubicacion");
             Date fechaVencimiento = doc.getDate("fechaVencimiento");
+            Boolean aplicaIGV = doc.getBoolean("aplicaIGV");
+            if (aplicaIGV == null) {
+                Object igvObj = doc.get("aplicaIGV");
+                if (igvObj instanceof String) {
+                    String igvStr = ((String) igvObj).trim().toLowerCase();
+                    aplicaIGV = !(igvStr.equals("deshabilitado") || igvStr.equals("false") || igvStr.equals("0"));
+                } else {
+                    aplicaIGV = true; // Por defecto aplica IGV si no se especifica
+                }
+            }
             
             System.out.println("DEBUG DAO: Datos extraídos - Código: " + codigo + ", Nombre: " + nombre + ", Precio: " + precio);
             
@@ -375,12 +410,19 @@ public class ProductoDAO {
                 fechaVencimiento, ubicacion
             );
             
-            // Manejar campo activo
+            // Manejar campo activo (aceptar boolean o string heredado)
             Boolean activo = doc.getBoolean("activo");
             if (activo == null) {
-                activo = true; // Por defecto activo si no está especificado
+                Object actObj = doc.get("activo");
+                if (actObj instanceof String) {
+                    String actStr = ((String) actObj).trim().toLowerCase();
+                    activo = !(actStr.equals("inactivo") || actStr.equals("false") || actStr.equals("0"));
+                } else {
+                    activo = true; // Por defecto activo si no está especificado
+                }
             }
             producto.setActivo(activo);
+            producto.setAplicaIGV(aplicaIGV);
             
             producto.setFechaCreacion(doc.getDate("fechaCreacion"));
             producto.setFechaActualizacion(doc.getDate("fechaActualizacion"));

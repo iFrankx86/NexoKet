@@ -1,22 +1,23 @@
 package utp.edu.pe.nexoket.Facade.INexoKet;
-import utp.edu.pe.nexoket.modelo.Producto;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+import utp.edu.pe.nexoket.modelo.Producto;
 
 public interface IProductoFacade {
     // Operaciones CRUD básicas
     boolean registrarProducto(String codigo, String nombre, String marca, String categoria, 
                              String subcategoria, String unidadMedida, int cantidadPorUnidad,
-                             String descripcion, double precio, int stock, int stockMinimo, 
-                             String proveedor, Date fechaVencimiento, String ubicacion);
+                             boolean aplicaIGV, String descripcion, double precio, int stock, int stockMinimo, 
+                             String proveedor, Date fechaVencimiento, String ubicacion, boolean activo);
     
     Producto buscarProducto(String codigo);
     Producto buscarProductoPorNombre(String nombre);
     
     boolean actualizarProducto(String codigo, String nombre, String marca, String categoria, 
                               String subcategoria, String unidadMedida, int cantidadPorUnidad,
-                              String descripcion, double precio, int stock, int stockMinimo, 
-                              String proveedor, Date fechaVencimiento, String ubicacion);
+                              boolean aplicaIGV, String descripcion, double precio, int stock, int stockMinimo, 
+                              String proveedor, Date fechaVencimiento, String ubicacion, boolean activo);
     
     boolean eliminarProducto(String codigo);
     

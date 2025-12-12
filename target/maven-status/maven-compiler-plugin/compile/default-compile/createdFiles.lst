@@ -9,6 +9,7 @@ utp\edu\pe\nexoket\jform\ItmRegistrarVenta$4.class
 utp\edu\pe\nexoket\util\MonitorRendimiento.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$1.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$11.class
+utp\edu\pe\nexoket\jform\ItmProductos$9.class
 utp\edu\pe\nexoket\jform\ItmReportes$ClienteCompras.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$2.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta.class
@@ -26,6 +27,7 @@ utp\edu\pe\nexoket\dao\ProveedorDAO.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$5.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$2.class
 utp\edu\pe\nexoket\dao\VentaDAO.class
+utp\edu\pe\nexoket\jform\ItmProductos$8.class
 utp\edu\pe\nexoket\modelo\ProductoBebida.class
 utp\edu\pe\nexoket\jform\ItmReportes$ProductoVendido.class
 utp\edu\pe\nexoket\jform\ItmProductos$1.class
@@ -58,6 +60,7 @@ utp\edu\pe\nexoket\jform\ItmProovedores$3.class
 utp\edu\pe\nexoket\jform\ItmHistorialVentas$4.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$9.class
 utp\edu\pe\nexoket\jform\Registrar$2.class
+utp\edu\pe\nexoket\jform\ItmProductos$7.class
 utp\edu\pe\nexoket\jform\Registrar.class
 utp\edu\pe\nexoket\modelo\ProductoLacteo.class
 utp\edu\pe\nexoket\jform\MenuPrincipal$10.class
@@ -76,6 +79,7 @@ utp\edu\pe\nexoket\jform\MenuPrincipal$8.class
 utp\edu\pe\nexoket\jform\Registrar$4.class
 utp\edu\pe\nexoket\jform\ItmHistorialVentas$2.class
 utp\edu\pe\nexoket\jform\ItmProductos$5.class
+utp\edu\pe\nexoket\test\TestItmProductosMejorado.class
 utp\edu\pe\nexoket\jform\ItmProovedores$4.class
 utp\edu\pe\nexoket\util\MonitorRendimiento$EstadoSistema.class
 utp\edu\pe\nexoket\jform\ItmRegistrarVenta$6.class

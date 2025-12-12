@@ -18,12 +18,14 @@ public class Producto {
     private Date fechaVencimiento;
     private String ubicacion;
     private boolean activo;
+    private boolean aplicaIGV;
     private Date fechaCreacion;
     private Date fechaActualizacion;
 
     // Constructor vacío
     public Producto() {
         this.activo = true;
+        this.aplicaIGV = true;
         this.fechaCreacion = new Date();
         this.fechaActualizacion = new Date();
         this.cantidadPorUnidad = 1;
@@ -214,6 +216,15 @@ public class Producto {
         this.fechaActualizacion = new Date();
     }
 
+    public boolean isAplicaIGV() {
+        return aplicaIGV;
+    }
+
+    public void setAplicaIGV(boolean aplicaIGV) {
+        this.aplicaIGV = aplicaIGV;
+        this.fechaActualizacion = new Date();
+    }
+
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -310,6 +321,7 @@ public class Producto {
                 ", stock=" + stock +
                 ", unidadMedida='" + unidadMedida + '\'' +
                 ", activo=" + activo +
+                ", aplicaIGV=" + aplicaIGV +
                 '}';
     }
 
