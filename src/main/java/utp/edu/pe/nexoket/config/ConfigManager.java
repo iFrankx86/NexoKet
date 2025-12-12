@@ -19,6 +19,11 @@ public class ConfigManager {
         loadProperties();
     }
     
+    /**
+     * Obtiene la instancia única del ConfigManager (Singleton).
+     * 
+     * @return La instancia única de ConfigManager
+     */
     public static ConfigManager getInstance() {
         if (instance == null) {
             synchronized (ConfigManager.class) {
@@ -45,7 +50,9 @@ public class ConfigManager {
     }
     
     /**
-     * Obtiene la URI de MongoDB (prioriza variable de entorno)
+     * Obtiene la URI de MongoDB (prioriza variable de entorno).
+     * 
+     * @return La URI de conexión a MongoDB
      */
     public String getMongoUri() {
         String uri = System.getenv("MONGODB_URI");
@@ -56,7 +63,9 @@ public class ConfigManager {
     }
     
     /**
-     * Obtiene el nombre de la base de datos MongoDB
+     * Obtiene el nombre de la base de datos MongoDB.
+     * 
+     * @return El nombre de la base de datos MongoDB
      */
     public String getMongoDatabase() {
         String db = System.getenv("MONGODB_DATABASE");
@@ -67,14 +76,21 @@ public class ConfigManager {
     }
     
     /**
-     * Obtiene una propiedad como String
+     * Obtiene una propiedad como String.
+     * 
+     * @param key La clave de la propiedad a obtener
+     * @return El valor de la propiedad o null si no existe
      */
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
     
     /**
-     * Obtiene una propiedad como entero
+     * Obtiene una propiedad como entero.
+     * 
+     * @param key La clave de la propiedad a obtener
+     * @param defaultValue El valor por defecto si la propiedad no existe o no es válida
+     * @return El valor entero de la propiedad o el valor por defecto
      */
     public int getIntProperty(String key, int defaultValue) {
         try {
@@ -86,7 +102,11 @@ public class ConfigManager {
     }
     
     /**
-     * Obtiene una propiedad como boolean
+     * Obtiene una propiedad como boolean.
+     * 
+     * @param key La clave de la propiedad a obtener
+     * @param defaultValue El valor por defecto si la propiedad no existe
+     * @return El valor booleano de la propiedad o el valor por defecto
      */
     public boolean getBooleanProperty(String key, boolean defaultValue) {
         String value = properties.getProperty(key);

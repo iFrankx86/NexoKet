@@ -26,8 +26,11 @@ import utp.edu.pe.nexoket.modelo.Proveedor;
 import java.io.IOException;
 
 /**
- *
- * @author User
+ * Ventana interna para la gestión de productos en el sistema NexoKet.
+ * Permite crear, editar, eliminar y visualizar productos con actualización automática.
+ * 
+ * @author NexoKet Team
+ * @version 1.0
  */
 public class ItmProductos extends javax.swing.JInternalFrame {
 
@@ -155,7 +158,9 @@ public class ItmProductos extends javax.swing.JInternalFrame {
     }
     
     /**
-     * Activa o desactiva la actualización automática
+     * Activa o desactiva la actualización automática de la tabla de productos.
+     * 
+     * @param enabled true para activar la actualización automática, false para desactivarla
      */
     public void setAutoRefreshEnabled(boolean enabled) {
         this.autoRefreshEnabled = enabled;
@@ -177,7 +182,9 @@ public class ItmProductos extends javax.swing.JInternalFrame {
     }
     
     /**
-     * Filtra la tabla por texto de búsqueda
+     * Filtra la tabla de productos por texto de búsqueda.
+     * 
+     * @param textoBusqueda El texto a buscar en los productos (busca en todos los campos)
      */
     public void filtrarTabla(String textoBusqueda) {
         if (textoBusqueda.trim().isEmpty()) {

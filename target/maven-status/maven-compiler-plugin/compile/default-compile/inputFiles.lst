@@ -1,13 +1,17 @@
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmRegistrarVenta.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoBebida.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoBase.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\test\MigracionTelefono.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\VentaFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ProductoFacade.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\SesionUsuario.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\MenuPrincipal.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\security\PasswordService.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\Proveedor.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\VentaDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ClienteDAO.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\MaintenanceService.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\test\TestBackup.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoAbarrote.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\ProductoSnack.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ProductoDAO.java
@@ -36,6 +40,8 @@ C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoke
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\dao\ProveedorDAO.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\NexoKet.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\MonitorRendimiento.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\util\BackupService.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\jform\ItmClientes.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\Facade\ClienteFacade.java
+C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\config\ConfigManager.java
 C:\Users\User\Documents\NetBeansProjects\NexoKet\src\main\java\utp\edu\pe\nexoket\modelo\User.java

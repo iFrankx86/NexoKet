@@ -1,498 +1,412 @@
 # 🏪 NexoKet - Sistema de Gestión de Bodega
 
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Maven](https://img.shields.io/badge/Maven-3.8+-blue.svg)](https://maven.apache.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/atlas)
-[![License](https://img.shields.io/badge/License-Private-red.svg)](LICENSE)
+[![Java](https://img.shields.io/badge/Java-22-orange.svg)](https://www.oracle.com/java/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green.svg)](https://www.mongodb.com/)
+[![Maven](https://img.shields.io/badge/Maven-3.9+-blue.svg)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/License-UTP-red.svg)](https://www.utp.edu.pe/)
 
-Sistema integral de gestión de inventario, ventas, clientes y proveedores con interfaz Java Swing y MongoDB Atlas.
-
----
-
-## 📋 Características Principales
-
-### ✅ Gestión Completa
-- **Productos**: Inventario con categorías (Lácteos, Bebidas, Snacks, Abarrotes)
-- **Ventas**: Registro de ventas con generación automática de boletas PDF
-- **Clientes**: Administración de clientes con sistema de descuentos
-- **Proveedores**: Control de proveedores y productos suministrados
-- **Reportes**: Análisis de ventas y productos más vendidos
-
-### 🔒 Seguridad Mejorada
-- Autenticación con contraseñas encriptadas usando **BCrypt**
-- Configuración sensible mediante variables de entorno
-- Validación de fortaleza de contraseñas
-- Sesiones con timeout automático
-- Logs de acceso y auditoría
-
-### 📊 Monitoreo y Mantenimiento
-- Sistema de logs estructurado (SLF4J + Logback)
-- Monitoreo de rendimiento en tiempo real
-- Alertas automáticas por umbrales de memoria y CPU
-- Backups automáticos cada 24 horas
-- Limpieza automática de logs antiguos
-
-### 🧪 Calidad del Código
-- Tests unitarios con JUnit 5
-- Cobertura de código con JaCoCo
-- Validaciones automatizadas
-- Documentación JavaDoc completa
+Sistema integral de gestión de inventario y ventas para bodegas, desarrollado como proyecto académico de la Universidad Tecnológica del Perú (UTP) 2025.
 
 ---
 
-## 🛠️ Tecnologías
+## 📋 Descripción del Proyecto
 
-| Categoría | Tecnología | Versión |
-|-----------|-----------|---------|
-| **Lenguaje** | Java | 17+ |
-| **Build Tool** | Apache Maven | 3.8+ |
-| **Base de Datos** | MongoDB Atlas | Cloud |
-| **GUI** | Java Swing | Built-in |
-| **Logging** | SLF4J + Logback | 2.0.9 |
-| **Testing** | JUnit 5 | 5.10.1 |
-| **Mocking** | Mockito | 5.8.0 |
-| **Security** | BCrypt (jBCrypt) | 0.4 |
-| **PDF** | iText | 5.5.13 |
-| **Barcode** | ZXing | 3.5.3 |
+**NexoKet** es un sistema de gestión de bodega completo que permite administrar productos, clientes, proveedores, ventas y generar reportes. El sistema cuenta con características avanzadas como:
+
+- 🔐 **Autenticación segura** con encriptación de contraseñas (BCrypt)
+- 📦 **Gestión de inventario** con control de stock y alertas de stock mínimo
+- 🛒 **Sistema de ventas** con generación automática de boletas en PDF
+- 👥 **Administración de clientes** y proveedores
+- 📊 **Reportes y estadísticas** de ventas e inventario
+- 💾 **Backups automáticos** de la base de datos
+- 🔍 **Monitoreo de rendimiento** del sistema
+- 🧹 **Mantenimiento automático** de datos
 
 ---
 
-## 📦 Instalación
+## 🚀 Tecnologías Utilizadas
 
-### Prerrequisitos
+### Backend
+- **Java 22** - Lenguaje de programación principal
+- **MongoDB Atlas** - Base de datos NoSQL en la nube
+- **Maven 3.9+** - Gestor de dependencias y construcción
 
-Asegúrate de tener instalado:
+### Frameworks y Librerías
+- **Swing/AWT** - Interfaz gráfica de usuario
+- **SLF4J + Logback** - Sistema de logging
+- **MongoDB Java Driver 4.9.1** - Conexión con MongoDB
+- **iText 5.5.13.3** - Generación de PDF (boletas de venta)
+- **jBCrypt 0.4** - Encriptación de contraseñas
+- **ZXing** - Lectura de códigos de barras
+- **Webcam Capture** - Captura de imágenes de cámara
 
-```bash
-# Java 17 o superior
-java -version
-# Debe mostrar: java version "17.x.x" o superior
+### Arquitectura
+- **Patrón DAO** (Data Access Object)
+- **Patrón Facade** para lógica de negocio
+- **Patrón Singleton** para servicios
+- **MVC** (Model-View-Controller)
 
-# Maven 3.8+
-mvn -version
-# Debe mostrar: Apache Maven 3.8.x o superior
+---
 
-# Git (opcional, para clonar)
-git --version
+## 📁 Estructura del Proyecto
+
+```
+NexoKet/
+├── src/main/java/utp/edu/pe/nexoket/
+│   ├── config/              # Gestión de configuración
+│   ├── dao/                 # Data Access Objects
+│   ├── db/                  # Conexión a MongoDB
+│   ├── Facade/              # Capa de lógica de negocio
+│   │   └── INexoKet/        # Interfaces
+│   ├── jform/               # Ventanas de la interfaz gráfica
+│   ├── modelo/              # Modelos de datos
+│   ├── security/            # Servicios de seguridad
+│   ├── test/                # Clases de prueba
+│   └── util/                # Utilidades (Backup, PDF, etc.)
+├── src/main/resources/
+│   └── application.properties  # Configuración de la aplicación
+├── target/
+│   └── reports/apidocs/     # Documentación Javadoc
+├── backups/                 # Backups automáticos de BD
+├── pom.xml                  # Configuración Maven
+└── README.md
 ```
 
-### Configuración Inicial
+---
 
-#### 1. Clonar o descargar el proyecto
+## 🛠️ Requisitos del Sistema
+
+### Software Necesario
+- **JDK 22** o superior
+- **Apache Maven 3.9+** o superior
+- **MongoDB Atlas** (cuenta gratuita) o MongoDB local
+- **IDE**: Apache NetBeans 25+ o Visual Studio Code con extensiones de Java
+
+### Requisitos de Hardware
+- **RAM**: Mínimo 4GB (recomendado 8GB)
+- **Disco**: 500MB de espacio libre
+- **Conexión a Internet**: Necesaria para MongoDB Atlas
+
+---
+
+## ⚙️ Instalación y Configuración
+
+### 1️⃣ Clonar o Descargar el Proyecto
 
 ```bash
 git clone https://github.com/tu-usuario/nexoket.git
 cd nexoket
 ```
 
-#### 2. Configurar variables de entorno
+O descarga el ZIP y extráelo en tu directorio de proyectos.
 
-**Windows (PowerShell):**
-```powershell
-# Crear archivo .env o establecer variables del sistema
-$env:MONGODB_URI = "mongodb+srv://usuario:password@cluster0.mongodb.net/?retryWrites=true&w=majority"
-$env:MONGODB_DATABASE = "NexoKet"
-```
+### 2️⃣ Configurar MongoDB
 
-**Windows (CMD):**
-```cmd
-set MONGODB_URI=mongodb+srv://usuario:password@cluster0.mongodb.net
-set MONGODB_DATABASE=NexoKet
-```
+#### Opción A: MongoDB Atlas (Recomendado)
+1. Crea una cuenta gratuita en [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Crea un cluster gratuito
+3. Crea un usuario de base de datos
+4. Obtén tu Connection String (URI)
+5. Agrega tu IP a la lista blanca (Network Access)
 
-**Linux/Mac:**
+#### Opción B: MongoDB Local
 ```bash
-export MONGODB_URI="mongodb+srv://usuario:password@cluster0.mongodb.net"
-export MONGODB_DATABASE="NexoKet"
+# Instalar MongoDB Community Server
+# Iniciar servicio
+mongod --dbpath C:\data\db
 ```
 
-> ⚠️ **IMPORTANTE**: Nunca commits las credenciales reales en el código. Usa variables de entorno.
+### 3️⃣ Configurar Variables de Entorno
 
-#### 3. Compilar el proyecto
+Edita el archivo `src/main/resources/application.properties`:
+
+```properties
+# MongoDB Atlas
+mongodb.uri=mongodb+srv://usuario:contraseña@cluster.mongodb.net/?retryWrites=true&w=majority
+mongodb.database=NexoKet
+
+# O MongoDB Local
+# mongodb.uri=mongodb://localhost:27017
+# mongodb.database=NexoKet
+
+# Backup Configuration
+backup.enabled=true
+backup.interval.hours=24
+backup.retention.days=7
+backup.path=./backups
+```
+
+**Importante:** Nunca subas credenciales reales a repositorios públicos. Usa variables de entorno:
+
+```bash
+# Windows
+set MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/
+set MONGODB_DATABASE=NexoKet
+
+# Linux/Mac
+export MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/
+export MONGODB_DATABASE=NexoKet
+```
+
+### 4️⃣ Instalar Dependencias
 
 ```bash
 mvn clean install
 ```
 
-#### 4. Ejecutar tests (opcional pero recomendado)
+---
+
+## 🚀 Ejecutar el Proyecto
+
+### Opción 1: Apache NetBeans IDE
+
+1. **Abrir el proyecto:**
+   - `File` → `Open Project`
+   - Navega a la carpeta del proyecto
+   - Selecciona `NexoKet` y haz clic en `Open Project`
+
+2. **Configurar JDK:**
+   - Click derecho en el proyecto → `Properties`
+   - `Build` → `Compile` → Selecciona JDK 22
+   - `Apply` → `OK`
+
+3. **Ejecutar:**
+   - Click derecho en `NexoKet.java` → `Run File` (Shift+F6)
+   - O presiona `F6` para ejecutar el proyecto completo
+
+4. **Ver Javadoc:**
+   - `Run` → `Generate Javadoc for "NexoKet"`
+   - Abre: `target/reports/apidocs/index.html`
+
+### Opción 2: Visual Studio Code
+
+1. **Instalar Extensiones:**
+   - Extension Pack for Java (Microsoft)
+   - Maven for Java
+   - Debugger for Java
+
+2. **Abrir el proyecto:**
+   ```bash
+   code .
+   ```
+
+3. **Configurar Java:**
+   - `Ctrl+Shift+P` → "Java: Configure Java Runtime"
+   - Selecciona JDK 22
+
+4. **Ejecutar:**
+   - Abre `NexoKet.java`
+   - Click en `Run` sobre el método `main`
+   - O presiona `F5` para debug
+
+5. **Maven:**
+   - Abre la vista de Maven (barra lateral)
+   - Expande el proyecto → `Lifecycle`
+   - Click en `compile` o `install`
+
+### Opción 3: Línea de Comandos
 
 ```bash
-mvn test
-```
+# Compilar
+mvn compile
 
-#### 5. Ejecutar la aplicación
-
-```bash
-# Opción 1: Desde Maven
+# Ejecutar clase principal
 mvn exec:java -Dexec.mainClass="utp.edu.pe.nexoket.NexoKet"
 
-# Opción 2: Ejecutar el JAR generado
-java -jar target/nexoket-1.0.0-SNAPSHOT.jar
-
-# Opción 3: Con configuración de memoria
-java -Xms512m -Xmx1024m -jar target/nexoket-1.0.0-SNAPSHOT.jar
-```
-
----
-
-## 🧪 Pruebas y Cobertura
-
-### Ejecutar todos los tests
-
-```bash
-mvn clean test
-```
-
-### Generar reporte de cobertura
-
-```bash
-mvn clean test jacoco:report
-```
-
-El reporte se generará en: `target/site/jacoco/index.html`
-
-### Tests implementados
-
-- ✅ **ProductoBaseTest**: 15 tests (categorías, precios, IGV, validaciones)
-- ✅ **ClienteTest**: 9 tests (creación, actualización, validaciones)
-- ✅ **ProveedorTest**: 10 tests (RUC, email, productos)
-- ✅ **PasswordServiceTest**: 15 tests (encriptación, validación)
-
-**Cobertura actual**: > 60% (recomendado para producción)
-
----
-
-## 📂 Estructura del Proyecto
-
-```
-nexoket/
-├── src/
-│   ├── main/
-│   │   ├── java/utp/edu/pe/nexoket/
-│   │   │   ├── config/              # Configuración centralizada
-│   │   │   │   └── ConfigManager.java
-│   │   │   ├── dao/                 # Data Access Objects
-│   │   │   │   ├── ClienteDAO.java
-│   │   │   │   ├── ProductoDAO.java
-│   │   │   │   ├── ProveedorDAO.java
-│   │   │   │   ├── UserDAO.java     # ✨ CON SEGURIDAD
-│   │   │   │   └── VentaDAO.java
-│   │   │   ├── db/                  # Conexión a BD
-│   │   │   │   └── MongoDBConnection.java
-│   │   │   ├── Facade/              # Capa de lógica de negocio
-│   │   │   │   ├── ClienteFacade.java
-│   │   │   │   ├── ProductoFacade.java
-│   │   │   │   ├── ProveedorFacade.java
-│   │   │   │   └── VentaFacade.java
-│   │   │   ├── jform/               # Interfaces Swing
-│   │   │   │   ├── InicioSesion.java
-│   │   │   │   ├── MenuPrincipal.java
-│   │   │   │   ├── ItmProductos.java
-│   │   │   │   └── ... (más formularios)
-│   │   │   ├── modelo/              # Entidades del dominio
-│   │   │   │   ├── Cliente.java
-│   │   │   │   ├── Producto.java
-│   │   │   │   ├── ProductoBase.java
-│   │   │   │   ├── ProductoLacteo.java
-│   │   │   │   ├── ProductoBebida.java
-│   │   │   │   ├── ProductoSnack.java
-│   │   │   │   ├── Proveedor.java
-│   │   │   │   ├── Venta.java
-│   │   │   │   └── User.java
-│   │   │   ├── security/            # 🔒 SEGURIDAD
-│   │   │   │   └── PasswordService.java
-│   │   │   ├── test/                # Tests manuales
-│   │   │   │   └── TestMonitoreo.java
-│   │   │   ├── util/                # Utilidades
-│   │   │   │   ├── BackupService.java     # 💾 NUEVO
-│   │   │   │   ├── GeneradorBoletaPDF.java
-│   │   │   │   ├── MaintenanceService.java # 🔧 NUEVO
-│   │   │   │   ├── MonitorRendimiento.java
-│   │   │   │   ├── SesionUsuario.java
-│   │   │   │   └── WebcamBarcodeScanner.java
-│   │   │   └── NexoKet.java         # Main class
-│   │   └── resources/
-│   │       ├── application.properties
-│   │       └── logback.xml (opcional)
-│   └── test/                         # 🧪 TESTS UNITARIOS
-│       └── java/utp/edu/pe/nexoket/
-│           ├── modelo/
-│           │   ├── ProductoBaseTest.java
-│           │   ├── ClienteTest.java
-│           │   └── ProveedorTest.java
-│           └── security/
-│               └── PasswordServiceTest.java
-├── logs/                             # Logs del sistema
-├── backups/                          # Backups automáticos
-├── target/                           # Archivos compilados
-├── pom.xml                           # ✨ NUEVO - Configuración Maven
-└── README.md                         # Este archivo
-```
-
----
-
-## 🔐 Seguridad Implementada
-
-### Encriptación de Contraseñas
-
-Todas las contraseñas de usuarios se almacenan encriptadas usando **BCrypt** con 12 rounds de salt:
-
-```java
-// Ejemplo de uso
-String plainPassword = "Password123!";
-String hashed = PasswordService.hashPassword(plainPassword);
-
-// Verificación
-boolean isValid = PasswordService.verifyPassword(plainPassword, hashed);
-```
-
-### Requisitos de Contraseña
-
-Las contraseñas deben cumplir:
-- ✅ Mínimo 8 caracteres
-- ✅ Al menos una letra mayúscula
-- ✅ Al menos una letra minúscula
-- ✅ Al menos un número
-- ✅ Al menos un símbolo especial (!@#$%^&*...)
-
-### Variables de Entorno
-
-**NUNCA** hardcodees credenciales. Usa variables de entorno:
-
-```properties
-# application.properties
-mongodb.uri=${MONGODB_URI:mongodb://localhost:27017}
-mongodb.database=${MONGODB_DATABASE:nexoket_dev}
-```
-
----
-
-## 📊 Monitoreo y Logs
-
-### Estructura de Logs
-
-```
-logs/
-├── nexoket.log           # Log general
-├── nexoket-error.log     # Solo errores
-└── performance.log       # Métricas de rendimiento
-```
-
-### Ver logs en tiempo real
-
-```bash
-# Windows PowerShell
-Get-Content logs\nexoket.log -Wait -Tail 50
-
-# Linux/Mac
-tail -f logs/nexoket.log
-```
-
-### Monitoreo de Rendimiento
-
-El sistema incluye `MonitorRendimiento` que registra automáticamente:
-- Uso de memoria (heap)
-- Hilos activos
-- Tiempo de ejecución
-- Alertas por umbrales
-
----
-
-## 💾 Backups Automáticos
-
-### Configuración
-
-Edita `application.properties`:
-
-```properties
-backup.enabled=true
-backup.interval.hours=24
-backup.path=./backups
-backup.retention.days=7
-```
-
-### Backup manual
-
-```java
-BackupService.getInstance().realizarBackup();
-```
-
-### Estructura de backup
-
-```
-backups/
-├── backup_20251212_143000/
-│   ├── _metadata.txt
-│   ├── Clientes.json
-│   ├── Productos.json
-│   ├── Ventas.json
-│   └── ...
-└── backup_20251213_030000/
-    └── ...
-```
-
----
-
-## 🔧 Mantenimiento Automático
-
-El `MaintenanceService` ejecuta tareas periódicas:
-
-| Tarea | Frecuencia | Descripción |
-|-------|-----------|-------------|
-| Limpieza de logs | Diaria (3 AM) | Elimina logs > 30 días |
-| Verificación BD | Cada hora | Chequea conectividad |
-| Verificación memoria | Cada hora | Alerta si uso > 90% |
-| Verificación disco | Cada hora | Alerta si libre < 10% |
-
----
-
-## 🚀 Despliegue
-
-### Generar JAR ejecutable
-
-```bash
-# JAR simple
-mvn clean package
-
-# JAR con dependencias incluidas
-mvn clean package assembly:single
-```
-
-### Ejecutar en producción
-
-```bash
-# Con configuración optimizada
-java -Xms512m -Xmx2048m \
-     -Dlogback.configurationFile=./config/logback.xml \
-     -jar nexoket-1.0.0-SNAPSHOT-jar-with-dependencies.jar
-```
-
-### Variables de entorno en producción
-
-Crea un archivo `.env` (NO commits a Git):
-
-```bash
-MONGODB_URI=mongodb+srv://prod-user:SecurePass@cluster0.mongodb.net
-MONGODB_DATABASE=NexoKet_Production
-```
-
----
-
-## 📝 Comandos Útiles
-
-```bash
-# Compilar sin tests
-mvn clean install -DskipTests
-
-# Ejecutar tests específicos
-mvn test -Dtest=ProductoBaseTest
-
-# Generar documentación JavaDoc
+# Generar Javadoc
 mvn javadoc:javadoc
 
-# Limpiar proyecto completamente
-mvn clean
-
-# Ver dependencias
-mvn dependency:tree
-
-# Actualizar dependencias
-mvn versions:display-dependency-updates
+# Crear JAR ejecutable
+mvn package
+java -jar target/NexoKet-1.0-SNAPSHOT.jar
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## 👤 Usuarios de Prueba
 
-### Error: "No se puede conectar a MongoDB"
+El sistema viene con usuarios de prueba (si ya fueron creados en la BD):
 
-1. Verifica las variables de entorno
-2. Comprueba que MongoDB Atlas permite tu IP
-3. Revisa logs: `logs/nexoket-error.log`
+```
+Usuario: admin
+Contraseña: admin123
+```
 
-### Error: "Tests fallan"
+Para crear un nuevo usuario, utiliza la opción "Registrarse" en la pantalla de inicio.
 
+---
+
+## 📊 Funcionalidades Principales
+
+### 1. Gestión de Productos
+- ✅ Registro de productos con categorías (Lácteos, Bebidas, Snacks, Abarrotes)
+- ✅ Control de stock con alertas de stock mínimo
+- ✅ Búsqueda y filtrado avanzado
+- ✅ Cálculo automático de precios con margen de ganancia
+- ✅ Escaneo de códigos de barras
+
+### 2. Gestión de Ventas
+- ✅ Registro de ventas con múltiples productos
+- ✅ Aplicación de descuentos por cliente
+- ✅ Generación automática de boletas en PDF
+- ✅ Historial de ventas
+- ✅ Reportes de ventas por periodo
+
+### 3. Gestión de Clientes
+- ✅ Registro de clientes con datos personales
+- ✅ Control de descuentos especiales
+- ✅ Historial de compras
+
+### 4. Gestión de Proveedores
+- ✅ Registro de proveedores
+- ✅ Control de productos por proveedor
+
+### 5. Reportes
+- ✅ Reporte de inventario
+- ✅ Productos más vendidos
+- ✅ Valor total del inventario
+- ✅ Productos con stock bajo
+- ✅ Productos próximos a vencer
+
+### 6. Servicios Automáticos
+- ✅ Backup automático de base de datos (cada 24 horas)
+- ✅ Monitoreo de rendimiento del sistema
+- ✅ Mantenimiento automático de datos
+- ✅ Limpieza de backups antiguos (> 7 días)
+
+---
+
+## 🧪 Ejecutar Pruebas
+
+### Test de Backup Manual
 ```bash
-# Ejecutar con más detalles
-mvn test -X
-
-# Saltar tests temporalmente
-mvn install -DskipTests
+mvn exec:java -Dexec.mainClass="utp.edu.pe.nexoket.test.TestBackup"
 ```
 
-### Error: "OutOfMemoryError"
-
+### Test de Productos
 ```bash
-# Aumentar memoria heap
-java -Xms1g -Xmx2g -jar nexoket.jar
+mvn exec:java -Dexec.mainClass="utp.edu.pe.nexoket.test.EjemploProductosReales"
+```
+
+### Test de Monitoreo
+```bash
+mvn exec:java -Dexec.mainClass="utp.edu.pe.nexoket.test.TestMonitoreo"
 ```
 
 ---
 
-## 👥 Contribuir
+## 📚 Documentación
 
-### Flujo de trabajo
+### Javadoc
+La documentación completa de las clases está disponible en formato Javadoc:
 
-1. Fork del proyecto
-2. Crear rama: `git checkout -b feature/nueva-funcionalidad`
-3. Commit: `git commit -m 'Agregar funcionalidad X'`
-4. Push: `git push origin feature/nueva-funcionalidad`
-5. Crear Pull Request
+1. Generar documentación:
+   ```bash
+   mvn javadoc:javadoc
+   ```
 
-### Estándares de código
+2. Abrir en navegador:
+   ```
+   target/reports/apidocs/index.html
+   ```
 
-- Usar formato de código consistente
-- Documentar métodos públicos con JavaDoc
-- Escribir tests para nuevas funcionalidades
-- Mantener cobertura > 60%
+### Estructura de Paquetes
+
+- **`config`**: Gestión de configuración del sistema
+- **`dao`**: Acceso a datos (MongoDB)
+- **`db`**: Conexión a base de datos
+- **`Facade`**: Lógica de negocio y patrones Facade
+- **`jform`**: Ventanas de interfaz gráfica (Swing)
+- **`modelo`**: Entidades y modelos de datos
+- **`security`**: Servicios de seguridad y encriptación
+- **`util`**: Utilidades (Backup, PDF, Monitoreo, etc.)
 
 ---
 
-## 📄 Licencia
+## 🐛 Solución de Problemas
 
-Este proyecto es **privado** y pertenece a la Universidad Tecnológica del Perú (UTP).
+### Error de Conexión a MongoDB
+```
+Error: MongoTimeoutException
+```
+**Solución:**
+- Verifica tu conexión a Internet
+- Confirma que la IP está en la lista blanca de MongoDB Atlas
+- Verifica las credenciales en `application.properties`
 
-© 2025 NexoKet Team - Todos los derechos reservados
+### Error de JDK
+```
+Error: Release version 22 not supported
+```
+**Solución:**
+- Instala JDK 22 o superior
+- Configura `JAVA_HOME`:
+  ```bash
+  set JAVA_HOME=C:\Program Files\Java\jdk-22
+  ```
+
+### Error de Maven
+```
+Error: JAVA_HOME not found
+```
+**Solución:**
+- Configura la variable de entorno `JAVA_HOME`
+- Reinicia el IDE o terminal
+
+### Problemas con Dependencias
+```bash
+# Limpiar y reinstalar
+mvn clean install -U
+```
+
+---
+
+## 📝 Licencia
+
+Este proyecto es desarrollado con fines académicos para la Universidad Tecnológica del Perú (UTP).
+
+**© 2025 NexoKet Team - UTP**
+
+---
+
+## 👥 Equipo de Desarrollo
+
+**NexoKet Team - UTP 2025**
+
+Desarrollado como proyecto del curso de Programación Orientada a Objetos.
+
+---
+
+## 🤝 Contribuciones
+
+Este es un proyecto académico. Si deseas contribuir:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
 ---
 
 ## 📞 Soporte
 
-- **Documentación**: Ver Wiki del repositorio
-- **Issues**: [GitHub Issues](https://github.com/tu-repo/nexoket/issues)
-- **Email**: soporte@nexoket.utp.edu.pe
+Para preguntas o problemas:
+- 📧 Email: nexoket@utp.edu.pe
+- 🌐 Universidad Tecnológica del Perú
 
 ---
 
-## 🏆 Cumplimiento de Rúbrica Académica
+## 🎯 Roadmap Futuro
 
-Este proyecto cumple con los siguientes criterios de evaluación:
-
-✅ **Pruebas de Software y Seguridad** (60-70%)
-- Tests unitarios con JUnit 5
-- Encriptación BCrypt
-- Validaciones de seguridad
-
-✅ **Despliegue del Proyecto** (80%)
-- Maven configurado
-- Variables de entorno
-- README completo
-
-✅ **Monitoreo del Proyecto** (90%)
-- Sistema de logs estructurado
-- Métricas de rendimiento
-- Alertas automáticas
-
-✅ **Mantenimiento del Proyecto** (100%)
-- Backups automáticos
-- Limpieza de logs
-- Scripts de verificación de salud
-
-✅ **Construcción del Producto Final**
-- Código completo y funcional
-- Arquitectura limpia (MVC + DAO + Facade)
-- Documentación exhaustiva
+- [ ] API REST para integración con otras aplicaciones
+- [ ] Aplicación móvil (Android/iOS)
+- [ ] Dashboard web con estadísticas en tiempo real
+- [ ] Integración con pasarelas de pago
+- [ ] Soporte multi-tienda
+- [ ] Reportes avanzados con gráficos
+- [ ] Notificaciones por email/SMS
 
 ---
 
-**Desarrollado con ❤️ por el equipo NexoKet - UTP 2025**
+**🚀 ¡Gracias por usar NexoKet! 🚀**

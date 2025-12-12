@@ -6,8 +6,10 @@ import javax.swing.ImageIcon;
 import utp.edu.pe.nexoket.jform.ItmProductos;
 
 /**
- *
- * @author User
+ * Ventana principal del sistema NexoKet.
+ * Proporciona acceso a todos los módulos del sistema de gestión de bodega.
+ * 
+ * @author NexoKet Team
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 

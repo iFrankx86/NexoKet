@@ -2,17 +2,32 @@ package utp.edu.pe.nexoket.util;
 
 import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+
 import utp.edu.pe.nexoket.modelo.DetalleVenta;
 import utp.edu.pe.nexoket.modelo.Venta;
 
-// Imports de iText 5
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.draw.LineSeparator;
-
 /**
- * Clase utilitaria para generar boletas de venta en formato PDF
- * @author User
+ * Clase utilitaria para generar boletas de venta en formato PDF.
+ * Utiliza iText para crear documentos PDF con formato de boleta comercial.
+ * 
+ * @author NexoKet Team
+ * @version 1.0
  */
 public class GeneradorBoletaPDF {
     

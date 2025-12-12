@@ -46,6 +46,11 @@ public class BackupService {
         }
     }
     
+    /**
+     * Obtiene la instancia única del BackupService (Singleton).
+     * 
+     * @return La instancia única de BackupService
+     */
     public static BackupService getInstance() {
         if (instance == null) {
             synchronized (BackupService.class) {
@@ -221,7 +226,9 @@ public class BackupService {
     }
     
     /**
-     * Obtiene la ruta del directorio de backups
+     * Obtiene la ruta del directorio de backups.
+     * 
+     * @return La ruta del directorio donde se almacenan los backups
      */
     public Path getBackupPath() {
         return backupPath;

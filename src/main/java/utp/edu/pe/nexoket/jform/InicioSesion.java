@@ -9,8 +9,10 @@ import utp.edu.pe.nexoket.facade.ClienteFacade;
 import utp.edu.pe.nexoket.modelo.User;
 
 /**
- *
- * @author Administrador
+ * Ventana de inicio de sesión del sistema NexoKet.
+ * Permite a los usuarios autenticarse para acceder al sistema.
+ * 
+ * @author NexoKet Team
  */
 public class InicioSesion extends javax.swing.JFrame {
 
@@ -224,7 +226,9 @@ public class InicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para ejecutar la ventana de inicio de sesión de forma independiente.
+     * 
+     * @param args Argumentos de línea de comandos (no utilizados)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
