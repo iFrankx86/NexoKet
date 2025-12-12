@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: utp.edu.pe.nexoket.modelo.ProductoBaseTest
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in utp.edu.pe.nexoket.modelo.ProductoBaseTest

@@ -1,0 +1,3 @@
+[
+  {"_id": {"$oid": "68df853c901f4757b48eb076"}, "codigoProveedor": "PROV001", "nombre": "Gloria S.A.", "ruc": "20123456789", "telefono": "987654321", "direccion": "Av. Ejemplo 123, Lima", "fechaCreacion": {"$date": "2025-10-03T00:00:00Z"}, "activo": true}
+]
