@@ -7,15 +7,29 @@ import com.mongodb.client.MongoCollection;
 import utp.edu.pe.nexoket.db.MongoDBConnection;
 import utp.edu.pe.nexoket.modelo.Cliente;
 
+/**
+ * Data Access Object (DAO) para la gestión de clientes en la base de datos MongoDB.
+ * Proporciona operaciones CRUD (Create, Read, Update, Delete) para los clientes.
+ * 
+ * @author NexoKet Team
+ * @version 1.0
+ */
 public class ClienteDAO {
     private final MongoCollection<Document> collection;
 
+    /**
+     * Constructor que inicializa la conexión con la colección de clientes en MongoDB.
+     */
     public ClienteDAO() {
         // Obtener la colección "Cliente" desde la base de datos
         collection = MongoDBConnection.getInstance().getDatabase().getCollection("Cliente");
     }
 
-    // Método para registrar un cliente
+    /**
+     * Registra un nuevo cliente en la base de datos.
+     * 
+     * @param cliente El objeto cliente a registrar con todos sus datos
+     */
     public void registrarCliente(Cliente cliente) {
         Document doc = new Document("nombre", cliente.getNombre())
                 .append("apellido", cliente.getApellido())
@@ -25,7 +39,12 @@ public class ClienteDAO {
         collection.insertOne(doc);
     }
 
-    // Método para consultar un cliente por DNI
+    /**
+     * Consulta un cliente por su DNI en la base de datos.
+     * 
+     * @param dni El DNI del cliente a buscar
+     * @return El cliente encontrado o null si no existe
+     */
     public Cliente consultarCliente(String dni) {
         Document query = new Document("dni", dni);
         Document resultado = collection.find(query).first();
@@ -63,7 +82,12 @@ public class ClienteDAO {
         }
         return null; // Si no se encuentra el cliente
     }
-    // Método para actualizar un cliente
+    /**
+     * Actualiza los datos de un cliente existente en la base de datos.
+     * 
+     * @param dni El DNI del cliente a actualizar
+     * @param clienteActualizado El objeto cliente con los nuevos datos
+     */
     public void actualizarCliente(String dni, Cliente clienteActualizado) {
         Document query = new Document("dni", dni);
         Document nuevosDatos = new Document("nombre", clienteActualizado.getNombre())
@@ -73,7 +97,11 @@ public class ClienteDAO {
                 .append("descuento", clienteActualizado.isDescuento());
         collection.updateOne(query, new Document("$set", nuevosDatos));
     }
-    // Método para eliminar un cliente
+    /**
+     * Elimina un cliente de la base de datos por su DNI.
+     * 
+     * @param dni El DNI del cliente a eliminar
+     */
     public void eliminarCliente(String dni) {
         Document query = new Document("dni", dni);
         collection.deleteOne(query);

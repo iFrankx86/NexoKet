@@ -6,8 +6,19 @@ import utp.edu.pe.nexoket.modelo.ProductoBebida;
 import utp.edu.pe.nexoket.modelo.ProductoLacteo;
 import utp.edu.pe.nexoket.modelo.ProductoSnack;
 
+/**
+ * Clase de prueba que crea productos reales peruanos para demostrar
+ * el funcionamiento del sistema de gestión de productos.
+ * 
+ * @author NexoKet Team
+ * @version 1.0
+ */
 public class EjemploProductosReales {
     
+    /**
+     * Crea una colección de productos reales peruanos para testing.
+     * Incluye productos lácteos, bebidas, abarrotes y snacks con marcas conocidas.
+     */
     public void crearProductosRealesPeruanos() {
         
         // === CREAR LÁCTEO ===
