@@ -191,7 +191,7 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnBuscarManual = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txtNombreProducto = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -239,6 +239,11 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel1.setText("Numero de Boleta");
 
         btnGenerarNumeroDeBoleta.setText("Generar");
+        btnGenerarNumeroDeBoleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarNumeroDeBoletaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Fecha de Emision");
 
@@ -266,7 +271,12 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Modo Manual");
 
-        jButton3.setText("Buscar");
+        btnBuscarManual.setText("Buscar");
+        btnBuscarManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarManualActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Nombre Producto");
 
@@ -277,6 +287,11 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel14.setText("Cantidad");
 
         btnEliminarItemTablaxFila.setText("Eliminar");
+        btnEliminarItemTablaxFila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarItemTablaxFilaActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel15.setText("DATOS CLIENTE");
@@ -295,6 +310,11 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         jLabel17.setText("Telefono");
 
         jButton4.setText("Escanear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("SubTotal");
 
@@ -444,7 +464,7 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel11)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton3)
+                                    .addComponent(btnBuscarManual)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -496,7 +516,7 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jButton3))
+                            .addComponent(btnBuscarManual))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -1150,6 +1170,11 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnInsertarProductoTablaActionPerformed
 
+    private void btnBuscarManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarManualActionPerformed
+        // Botón "Buscar Manual" - búsqueda manual de producto con diálogo mejorado
+        mostrarDialogoBusquedaManual();
+    }//GEN-LAST:event_btnBuscarManualActionPerformed
+
     private void btnGenerarNumeroDeBoletaActionPerformed(java.awt.event.ActionEvent evt) {
         String nuevoNumero = ventaFacade.generarNumeroVenta();
         ventaActual.setNumeroVenta(nuevoNumero);
@@ -1360,6 +1385,11 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
         activarCamara();
     }
 
+    private void btnEliminarItemTablaxFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarItemTablaxFilaActionPerformed
+        // Botón "Eliminar" - eliminar producto seleccionado del carrito
+        btnEliminarItemActionPerformed(evt);
+    }//GEN-LAST:event_btnEliminarItemTablaxFilaActionPerformed
+
     private void btnEliminarItemActionPerformed(java.awt.event.ActionEvent evt) {
         if (ventaActual.getDetalles().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
@@ -1477,6 +1507,7 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnBuscarManual;
     private javax.swing.JButton btnCancelarVenta;
     private javax.swing.JButton btnEliminarItemTablaxFila;
     private javax.swing.JButton btnGenerarNumeroDeBoleta;
@@ -1485,7 +1516,6 @@ public class ItmRegistrarVenta extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevaVenta;
     private javax.swing.JButton btnProcesarVenta;
     private javax.swing.JComboBox<String> cmbTipoPago;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

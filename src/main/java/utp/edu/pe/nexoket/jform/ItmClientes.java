@@ -13,6 +13,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
 import utp.edu.pe.nexoket.db.MongoDBConnection;
+import utp.edu.pe.nexoket.facade.ClienteFacade;
+import utp.edu.pe.nexoket.security.PasswordService;
 
 /**
  *
@@ -21,16 +23,21 @@ import utp.edu.pe.nexoket.db.MongoDBConnection;
 public class ItmClientes extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modeloTabla;
-    private MongoCollection<Document> coleccionClientes;
+    private MongoCollection<Document> coleccionCliente;
+    private MongoCollection<Document> coleccionUsuarios;
+    private ClienteFacade clienteFacade;
     private String codigoClienteEnEdicion = null;
     private boolean modoEdicion = false;
+    private boolean esUsuario = false; // Indica si el registro seleccionado es un Usuario
 
     /**
      * Creates new form MenuPrincipal
      */
     public ItmClientes() {
         initComponents();
-        this.coleccionClientes = MongoDBConnection.getInstance().getDatabase().getCollection("Cliente");
+        this.coleccionCliente = MongoDBConnection.getInstance().getDatabase().getCollection("Cliente");
+        this.coleccionUsuarios = MongoDBConnection.getInstance().getDatabase().getCollection("Usuarios");
+        this.clienteFacade = new ClienteFacade();
         configurarTabla();
         configurarListeners();
         cargarClientes();
@@ -52,7 +59,6 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtFiltro = new javax.swing.JTextField();
         btnBuscarFiltro = new javax.swing.JButton();
@@ -68,6 +74,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         btnLimpiarCampos = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
 
         setClosable(true);
         setIconifiable(true);
@@ -201,11 +208,11 @@ public class ItmClientes extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,7 +238,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
      * Configura la tabla con las columnas apropiadas
      */
     private void configurarTabla() {
-        String[] columnas = {"Código", "Nombres", "Apellidos", "DNI", "Teléfono", "Correo", "Contraseña", "Dirección", "Activo"};
+        String[] columnas = {"Tipo", "Código", "Nombres", "Apellidos", "DNI", "Teléfono", "Correo", "Dirección", "Activo"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -239,6 +246,17 @@ public class ItmClientes extends javax.swing.JInternalFrame {
             }
         };
         tblClientes.setModel(modeloTabla);
+        
+        // Ajustar anchos de columnas
+        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(80);  // Tipo
+        tblClientes.getColumnModel().getColumn(1).setPreferredWidth(100); // Código
+        tblClientes.getColumnModel().getColumn(2).setPreferredWidth(120); // Nombres
+        tblClientes.getColumnModel().getColumn(3).setPreferredWidth(120); // Apellidos
+        tblClientes.getColumnModel().getColumn(4).setPreferredWidth(80);  // DNI
+        tblClientes.getColumnModel().getColumn(5).setPreferredWidth(100); // Teléfono
+        tblClientes.getColumnModel().getColumn(6).setPreferredWidth(180); // Correo
+        tblClientes.getColumnModel().getColumn(7).setPreferredWidth(150); // Dirección
+        tblClientes.getColumnModel().getColumn(8).setPreferredWidth(60);  // Activo
     }
 
     /**
@@ -261,184 +279,230 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         btnEditar.addActionListener(e -> actualizarCliente());
         btnEliminar.addActionListener(e -> eliminarCliente());
         btnBuscarFiltro.addActionListener(e -> filtrarClientes());
+        btnLimpiarCampos.addActionListener(e -> limpiarFormulario());
     }
 
     /**
-     * Carga todos los clientes desde MongoDB
+     * Carga todos los clientes y usuarios desde MongoDB
      */
     private void cargarClientes() {
         modeloTabla.setRowCount(0);
+        int totalCargados = 0;
         
-        try (MongoCursor<Document> cursor = coleccionClientes.find().iterator()) {
+        // Cargar Clientes
+        try (MongoCursor<Document> cursor = coleccionCliente.find().iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 Object[] fila = {
-                    doc.getString("codigoCliente"),
-                    doc.getString("nombres"),
-                    doc.getString("apellidos"),
+                    "Cliente",
+                    doc.getString("codigoCliente") != null ? doc.getString("codigoCliente") : "N/A",
+                    doc.getString("nombre") != null ? doc.getString("nombre") : doc.getString("nombres"),
+                    doc.getString("apellido") != null ? doc.getString("apellido") : doc.getString("apellidos"),
                     doc.getString("dni"),
                     doc.getString("telefono"),
-                    doc.getString("correo"),
-                    doc.getString("contraseña"),
-                    doc.getString("direccion"),
-                    doc.getBoolean("activo") ? "Sí" : "No"
+                    doc.getString("correo") != null ? doc.getString("correo") : "N/A",
+                    doc.getString("direccion") != null ? doc.getString("direccion") : "N/A",
+                    doc.getBoolean("activo") != null ? (doc.getBoolean("activo") ? "Sí" : "No") : "Sí"
                 };
                 modeloTabla.addRow(fila);
+                totalCargados++;
             }
-            
-            System.out.println("✓ " + modeloTabla.getRowCount() + " clientes cargados");
-            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al cargar clientes: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            System.err.println("Error al cargar clientes: " + e.getMessage());
         }
+        
+        // Cargar Usuarios
+        try (MongoCursor<Document> cursor = coleccionUsuarios.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Object[] fila = {
+                    "Usuario",
+                    doc.getString("username"),
+                    doc.getString("nombre") != null ? doc.getString("nombre") : "N/A",
+                    doc.getString("apellido") != null ? doc.getString("apellido") : "N/A",
+                    doc.getString("dni") != null ? doc.getString("dni") : "N/A",
+                    doc.getString("telefono") != null ? doc.getString("telefono") : "N/A",
+                    doc.getString("correo") != null ? doc.getString("correo") : "N/A",
+                    "N/A", // Usuarios no tienen dirección
+                    doc.getBoolean("activo") != null ? (doc.getBoolean("activo") ? "Sí" : "No") : "Sí"
+                };
+                modeloTabla.addRow(fila);
+                totalCargados++;
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar usuarios: " + e.getMessage());
+        }
+        
+        System.out.println("✓ " + totalCargados + " registros cargados (Clientes + Usuarios)");
     }
 
     /**
-     * Carga un cliente seleccionado en el formulario
+     * Carga un cliente o usuario seleccionado en el formulario
      */
     private void cargarClienteEnFormulario(int fila) {
-        codigoClienteEnEdicion = modeloTabla.getValueAt(fila, 0).toString();
-        txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
-        txtApellido.setText(modeloTabla.getValueAt(fila, 2).toString());
-        txtDNI.setText(modeloTabla.getValueAt(fila, 3).toString());
-        txtTelefono.setText(modeloTabla.getValueAt(fila, 4).toString());
-        txtCorreo.setText(modeloTabla.getValueAt(fila, 5).toString());
-        txtContraseña.setText(modeloTabla.getValueAt(fila, 6).toString());
-        txtDireccion.setText(modeloTabla.getValueAt(fila, 7).toString());
+        String tipo = modeloTabla.getValueAt(fila, 0).toString();
+        esUsuario = tipo.equals("Usuario");
+        
+        codigoClienteEnEdicion = modeloTabla.getValueAt(fila, 1).toString();
+        txtNombre.setText(modeloTabla.getValueAt(fila, 2).toString());
+        txtApellido.setText(modeloTabla.getValueAt(fila, 3).toString());
+        
+        String dni = modeloTabla.getValueAt(fila, 4).toString();
+        txtDNI.setText(dni.equals("N/A") ? "" : dni);
+        
+        String telefono = modeloTabla.getValueAt(fila, 5).toString();
+        txtTelefono.setText(telefono.equals("N/A") ? "" : telefono);
+        
+        String correo = modeloTabla.getValueAt(fila, 6).toString();
+        txtCorreo.setText(correo.equals("N/A") ? "" : correo);
+        
+        String direccion = modeloTabla.getValueAt(fila, 7).toString();
+        txtDireccion.setText(direccion.equals("N/A") ? "" : direccion);
+        
+        // Limpiar contraseña por seguridad (nunca mostrar contraseña hasheada)
+        txtContraseña.setText("");
         
         modoEdicion = true;
         btnAgregar.setEnabled(false);
         btnEditar.setEnabled(true);
+        
+        if (esUsuario) {
+            JOptionPane.showMessageDialog(this,
+                "⚠️ Editando Usuario: " + codigoClienteEnEdicion + "\n" +
+                "Deje la contraseña vacía si no desea cambiarla",
+                "Modo Edición - Usuario",
+                JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
-     * Agregar nuevo cliente
+     * Agregar nuevo cliente o usuario
      */
     private void agregarCliente() {
-        // Validar campos
-        if (txtNombre.getText().trim().isEmpty() || txtApellido.getText().trim().isEmpty() || 
-            txtDNI.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty()) {
+        // Validar campos obligatorios
+        if (txtNombre.getText().trim().isEmpty() || txtApellido.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                "Por favor, complete los campos obligatorios:\nNombre, Apellido, DNI y Correo",
+                "Por favor, complete los campos obligatorios:\nNombre y Apellido",
                 "Campos incompletos",
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        try {
-            // Generar código de cliente automático
-            String codigoCliente = generarCodigoCliente();
-            
-            Document nuevoCliente = new Document()
-                .append("codigoCliente", codigoCliente)
-                .append("nombres", txtNombre.getText().trim())
-                .append("apellidos", txtApellido.getText().trim())
-                .append("dni", txtDNI.getText().trim())
-                .append("telefono", txtTelefono.getText().trim())
-                .append("correo", txtCorreo.getText().trim())
-                .append("contraseña", txtContraseña.getText().trim())
-                .append("direccion", txtDireccion.getText().trim())
-                .append("fechaRegistro", new java.util.Date())
-                .append("activo", true);
-
-            coleccionClientes.insertOne(nuevoCliente);
-
-            JOptionPane.showMessageDialog(this,
-                "✅ Cliente registrado exitosamente\n" +
-                "Código: " + codigoCliente,
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
-
-            limpiarFormulario();
-            cargarClientes();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al registrar cliente: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Actualizar cliente existente
-     */
-    private void actualizarCliente() {
-        if (codigoClienteEnEdicion == null) {
-            JOptionPane.showMessageDialog(this,
-                "Seleccione un cliente de la tabla para editar",
-                "Validación",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            Document filtro = new Document("codigoCliente", codigoClienteEnEdicion);
-            Document actualizacion = new Document("$set", new Document()
-                .append("nombres", txtNombre.getText().trim())
-                .append("apellidos", txtApellido.getText().trim())
-                .append("dni", txtDNI.getText().trim())
-                .append("telefono", txtTelefono.getText().trim())
-                .append("correo", txtCorreo.getText().trim())
-                .append("contraseña", txtContraseña.getText().trim())
-                .append("direccion", txtDireccion.getText().trim()));
-
-            coleccionClientes.updateOne(filtro, actualizacion);
-
-            JOptionPane.showMessageDialog(this,
-                "✅ Cliente actualizado exitosamente",
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
-
-            limpiarFormulario();
-            cargarClientes();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al actualizar cliente: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Eliminar cliente
-     */
-    private void eliminarCliente() {
-        int filaSeleccionada = tblClientes.getSelectedRow();
         
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this,
-                "Seleccione un cliente de la tabla para eliminar",
-                "Validación",
-                JOptionPane.WARNING_MESSAGE);
-            return;
+        String nombre = txtNombre.getText().trim();
+        String apellido = txtApellido.getText().trim();
+        String dni = txtDNI.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+        String correo = txtCorreo.getText().trim();
+        String contraseña = new String(txtContraseña.getPassword()).trim();
+        String direccion = txtDireccion.getText().trim();
+        
+        // Preguntar si es Cliente o Usuario
+        String[] opciones = {"Cliente", "Usuario", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+            "¿Qué tipo de registro desea crear?",
+            "Seleccionar Tipo",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[0]);
+        
+        if (seleccion == 2 || seleccion == JOptionPane.CLOSED_OPTION) {
+            return; // Cancelar
         }
-
-        String codigoCliente = modeloTabla.getValueAt(filaSeleccionada, 0).toString();
-        String nombreCliente = modeloTabla.getValueAt(filaSeleccionada, 1).toString();
-
-        int confirmacion = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de eliminar el cliente?\n\n" +
-            "Código: " + codigoCliente + "\n" +
-            "Nombre: " + nombreCliente,
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-
-        if (confirmacion == JOptionPane.YES_OPTION) {
+        
+        boolean crearUsuario = (seleccion == 1);
+        
+        if (crearUsuario) {
+            // Validaciones adicionales para Usuario
+            if (correo.isEmpty() || contraseña.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                    "Para crear un Usuario, debe proporcionar:\n" +
+                    "- Correo electrónico\n" +
+                    "- Contraseña",
+                    "Campos obligatorios",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Validar fortaleza de contraseña
+            String errorValidacion = PasswordService.validatePassword(contraseña);
+            if (errorValidacion != null) {
+                JOptionPane.showMessageDialog(this,
+                    "Contraseña no válida:\n" + errorValidacion + "\n\n" +
+                    "Requisitos:\n" +
+                    "- Mínimo 8 caracteres\n" +
+                    "- Al menos una mayúscula\n" +
+                    "- Al menos una minúscula\n" +
+                    "- Al menos un dígito\n" +
+                    "- Al menos un carácter especial",
+                    "Contraseña débil",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Generar username automático
+            String username = (nombre.substring(0, 1) + apellido).toLowerCase().replaceAll("\\s+", "");
+            
+            // Usar ClienteFacade para registrar con encriptación BCrypt
             try {
-                Document filtro = new Document("codigoCliente", codigoCliente);
-                coleccionClientes.deleteOne(filtro);
+                boolean exito = clienteFacade.registrarUsuarioConCorreo(
+                    username, contraseña, correo, nombre, apellido, 
+                    dni.isEmpty() ? "00000000" : dni, false);
+                
+                if (exito) {
+                    JOptionPane.showMessageDialog(this,
+                        "✅ Usuario registrado exitosamente\n" +
+                        "Username: " + username + "\n" +
+                        "Correo: " + correo + "\n\n" +
+                        "🔒 Contraseña encriptada con BCrypt",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
+                    limpiarFormulario();
+                    cargarClientes();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Error: No se pudo registrar el usuario.\n" +
+                        "El username podría estar duplicado.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error de validación: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al registrar usuario: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+            
+        } else {
+            // Crear Cliente (sin contraseña encriptada)
+            try {
+                String codigoCliente = generarCodigoCliente();
+                
+                Document nuevoCliente = new Document()
+                    .append("codigoCliente", codigoCliente)
+                    .append("nombre", nombre)
+                    .append("apellido", apellido)
+                    .append("dni", dni)
+                    .append("telefono", telefono)
+                    .append("correo", correo)
+                    .append("direccion", direccion)
+                    .append("descuento", false)
+                    .append("fechaRegistro", new java.util.Date())
+                    .append("activo", true);
+
+                coleccionCliente.insertOne(nuevoCliente);
 
                 JOptionPane.showMessageDialog(this,
-                    "✅ Cliente eliminado exitosamente",
+                    "✅ Cliente registrado exitosamente\n" +
+                    "Código: " + codigoCliente,
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
@@ -447,7 +511,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this,
-                    "Error al eliminar cliente: " + e.getMessage(),
+                    "Error al registrar cliente: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
@@ -456,7 +520,154 @@ public class ItmClientes extends javax.swing.JInternalFrame {
     }
 
     /**
-     * Filtrar clientes por búsqueda
+     * Actualizar cliente o usuario existente
+     */
+    private void actualizarCliente() {
+        if (codigoClienteEnEdicion == null) {
+            JOptionPane.showMessageDialog(this,
+                "Seleccione un registro de la tabla para editar",
+                "Validación",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String nombre = txtNombre.getText().trim();
+        String apellido = txtApellido.getText().trim();
+        String dni = txtDNI.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+        String correo = txtCorreo.getText().trim();
+        String contraseña = new String(txtContraseña.getPassword()).trim();
+        String direccion = txtDireccion.getText().trim();
+
+        try {
+            if (esUsuario) {
+                // Actualizar Usuario
+                Document filtro = new Document("username", codigoClienteEnEdicion);
+                Document actualizacion = new Document("$set", new Document()
+                    .append("nombre", nombre)
+                    .append("apellido", apellido)
+                    .append("dni", dni)
+                    .append("telefono", telefono)
+                    .append("correo", correo));
+                
+                // Si hay contraseña nueva, encriptarla y actualizarla
+                if (!contraseña.isEmpty()) {
+                    // Validar fortaleza de contraseña
+                    String errorValidacion = PasswordService.validatePassword(contraseña);
+                    if (errorValidacion != null) {
+                        JOptionPane.showMessageDialog(this,
+                            "Contraseña no válida:\n" + errorValidacion,
+                            "Contraseña débil",
+                            JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    
+                    String hashedPassword = PasswordService.hashPassword(contraseña);
+                    actualizacion.get("$set", Document.class).append("password", hashedPassword);
+                }
+                
+                coleccionUsuarios.updateOne(filtro, actualizacion);
+                
+                JOptionPane.showMessageDialog(this,
+                    "✅ Usuario actualizado exitosamente" +
+                    (contraseña.isEmpty() ? "" : "\n🔒 Contraseña actualizada y encriptada"),
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+            } else {
+                // Actualizar Cliente
+                Document filtro = new Document("codigoCliente", codigoClienteEnEdicion);
+                Document actualizacion = new Document("$set", new Document()
+                    .append("nombre", nombre)
+                    .append("apellido", apellido)
+                    .append("dni", dni)
+                    .append("telefono", telefono)
+                    .append("correo", correo)
+                    .append("direccion", direccion));
+
+                coleccionCliente.updateOne(filtro, actualizacion);
+
+                JOptionPane.showMessageDialog(this,
+                    "✅ Cliente actualizado exitosamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            limpiarFormulario();
+            cargarClientes();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al actualizar: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Eliminar cliente o usuario (desactivar)
+     */
+    private void eliminarCliente() {
+        int filaSeleccionada = tblClientes.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Seleccione un registro de la tabla para eliminar",
+                "Validación",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String tipo = modeloTabla.getValueAt(filaSeleccionada, 0).toString();
+        String codigo = modeloTabla.getValueAt(filaSeleccionada, 1).toString();
+        String nombre = modeloTabla.getValueAt(filaSeleccionada, 2).toString();
+        String apellido = modeloTabla.getValueAt(filaSeleccionada, 3).toString();
+        boolean esUsuarioSeleccionado = tipo.equals("Usuario");
+
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+            "¿Está seguro de desactivar este " + tipo.toLowerCase() + "?\n\n" +
+            "Código/Username: " + codigo + "\n" +
+            "Nombre: " + nombre + " " + apellido + "\n\n" +
+            "Nota: El registro será marcado como inactivo",
+            "Confirmar desactivación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                if (esUsuarioSeleccionado) {
+                    // Desactivar Usuario
+                    Document filtro = new Document("username", codigo);
+                    Document actualizacion = new Document("$set", new Document("activo", false));
+                    coleccionUsuarios.updateOne(filtro, actualizacion);
+                } else {
+                    // Desactivar Cliente
+                    Document filtro = new Document("codigoCliente", codigo);
+                    Document actualizacion = new Document("$set", new Document("activo", false));
+                    coleccionCliente.updateOne(filtro, actualizacion);
+                }
+
+                JOptionPane.showMessageDialog(this,
+                    "✅ " + tipo + " desactivado exitosamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+                limpiarFormulario();
+                cargarClientes();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al desactivar: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Filtrar clientes y usuarios por búsqueda
      */
     private void filtrarClientes() {
         String filtro = txtFiltro.getText().trim().toLowerCase();
@@ -467,30 +678,30 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         }
 
         modeloTabla.setRowCount(0);
+        int contador = 0;
 
-        try (MongoCursor<Document> cursor = coleccionClientes.find().iterator()) {
-            int contador = 0;
-            
+        // Filtrar Clientes
+        try (MongoCursor<Document> cursor = coleccionCliente.find().iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 
-                String codigo = doc.getString("codigoCliente").toLowerCase();
-                String nombres = doc.getString("nombres").toLowerCase();
-                String apellidos = doc.getString("apellidos").toLowerCase();
-                String dni = doc.getString("dni").toLowerCase();
-                String correo = doc.getString("correo").toLowerCase();
+                String codigo = doc.getString("codigoCliente") != null ? doc.getString("codigoCliente").toLowerCase() : "";
+                String nombres = doc.getString("nombre") != null ? doc.getString("nombre").toLowerCase() : "";
+                String apellidos = doc.getString("apellido") != null ? doc.getString("apellido").toLowerCase() : "";
+                String dni = doc.getString("dni") != null ? doc.getString("dni").toLowerCase() : "";
+                String correo = doc.getString("correo") != null ? doc.getString("correo").toLowerCase() : "";
                 
                 if (codigo.contains(filtro) || nombres.contains(filtro) || 
                     apellidos.contains(filtro) || dni.contains(filtro) || correo.contains(filtro)) {
                     
                     Object[] fila = {
+                        "Cliente",
                         doc.getString("codigoCliente"),
-                        doc.getString("nombres"),
-                        doc.getString("apellidos"),
+                        doc.getString("nombre"),
+                        doc.getString("apellido"),
                         doc.getString("dni"),
                         doc.getString("telefono"),
                         doc.getString("correo"),
-                        doc.getString("contraseña"),
                         doc.getString("direccion"),
                         doc.getBoolean("activo") ? "Sí" : "No"
                     };
@@ -498,16 +709,44 @@ public class ItmClientes extends javax.swing.JInternalFrame {
                     contador++;
                 }
             }
-            
-            System.out.println("✓ " + contador + " clientes encontrados con filtro: " + filtro);
-            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al filtrar clientes: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            System.err.println("Error al filtrar clientes: " + e.getMessage());
         }
+        
+        // Filtrar Usuarios
+        try (MongoCursor<Document> cursor = coleccionUsuarios.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                
+                String username = doc.getString("username") != null ? doc.getString("username").toLowerCase() : "";
+                String nombres = doc.getString("nombre") != null ? doc.getString("nombre").toLowerCase() : "";
+                String apellidos = doc.getString("apellido") != null ? doc.getString("apellido").toLowerCase() : "";
+                String dni = doc.getString("dni") != null ? doc.getString("dni").toLowerCase() : "";
+                String correo = doc.getString("correo") != null ? doc.getString("correo").toLowerCase() : "";
+                
+                if (username.contains(filtro) || nombres.contains(filtro) || 
+                    apellidos.contains(filtro) || dni.contains(filtro) || correo.contains(filtro)) {
+                    
+                    Object[] fila = {
+                        "Usuario",
+                        doc.getString("username"),
+                        doc.getString("nombre"),
+                        doc.getString("apellido"),
+                        doc.getString("dni"),
+                        doc.getString("telefono"),
+                        doc.getString("correo"),
+                        "N/A",
+                        doc.getBoolean("activo") ? "Sí" : "No"
+                    };
+                    modeloTabla.addRow(fila);
+                    contador++;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al filtrar usuarios: " + e.getMessage());
+        }
+        
+        System.out.println("✓ " + contador + " registros encontrados con filtro: " + filtro);
     }
 
     /**
@@ -515,7 +754,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
      */
     private String generarCodigoCliente() {
         try {
-            long count = coleccionClientes.countDocuments();
+            long count = coleccionCliente.countDocuments();
             return String.format("CLI%03d", count + 1);
         } catch (Exception e) {
             return "CLI001";
@@ -537,6 +776,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
         
         codigoClienteEnEdicion = null;
         modoEdicion = false;
+        esUsuario = false;
         btnAgregar.setEnabled(true);
         btnEditar.setEnabled(true);
         
@@ -560,7 +800,7 @@ public class ItmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDNI;
     private javax.swing.JTextField txtDireccion;

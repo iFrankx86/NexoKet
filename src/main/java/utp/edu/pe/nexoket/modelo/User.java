@@ -8,9 +8,17 @@ public class User extends Cliente{
     public User(String nombre, String apellido, String dni, boolean descuento) {
         super(nombre, apellido, dni, descuento);
     }
-    //constructor
+    //constructor sin teléfono (compatibilidad)
     public User(String username, String contraseña, String correo, String nombre, String apellido, String dni, boolean descuento) {
         super(nombre, apellido, dni, descuento);
+        this.username = username;
+        this.contraseña = contraseña;
+        this.correo = correo;
+    }
+    
+    //constructor con teléfono
+    public User(String username, String contraseña, String correo, String nombre, String apellido, String dni, String telefono, boolean descuento) {
+        super(nombre, apellido, dni, telefono, descuento);
         this.username = username;
         this.contraseña = contraseña;
         this.correo = correo;

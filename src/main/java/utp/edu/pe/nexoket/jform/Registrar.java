@@ -23,6 +23,10 @@ public class Registrar extends javax.swing.JFrame {
     private void limpiarCampos() {
         txtCorreo.setText("");
         txtUsername.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        jTextField1.setText(""); // DNI
+        txtTelefono.setText(""); // Teléfono
         txtContraseña.setText("");
         txtConfirmarContraseña.setText("");
     }
@@ -35,18 +39,27 @@ public class Registrar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSpinner1 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtContraseña = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtConfirmarContraseña = new javax.swing.JTextField();
         btnRegistrado = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnIniciarSesion = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        txtContraseña = new javax.swing.JPasswordField();
+        txtConfirmarContraseña = new javax.swing.JPasswordField();
+        jLabel10 = new javax.swing.JLabel();
+        txtTelefono = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro de Usuario");
@@ -72,7 +85,7 @@ public class Registrar extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel5.setText("Registrar al Nuevo Usuario");
 
         jLabel6.setText("¿Tienes una cuenta?");
@@ -84,49 +97,85 @@ public class Registrar extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Nombres:");
+
+        jLabel8.setText("Apellidos:");
+
+        jLabel9.setText("DNI:");
+
+        jLabel10.setText("Telefono:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(294, 294, 294)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnRegistrado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUsername)
-                            .addComponent(txtContraseña)
-                            .addComponent(txtCorreo)
-                            .addComponent(txtConfirmarContraseña)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnIniciarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addGap(250, 250, 250)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(61, 61, 61)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCorreo)
+                                .addComponent(jTextField1)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel10))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnRegistrado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnIniciarSesion))
+                                .addComponent(txtContraseña)
+                                .addComponent(txtConfirmarContraseña)
+                                .addComponent(txtTelefono)))))
+                .addContainerGap(365, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(144, 144, 144)
+                .addGap(69, 69, 69)
                 .addComponent(jLabel5)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -136,11 +185,11 @@ public class Registrar extends javax.swing.JFrame {
                     .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(btnIniciarSesion))
-                .addGap(49, 49, 49))
+                .addGap(79, 79, 79))
         );
 
         pack();
@@ -154,14 +203,30 @@ public class Registrar extends javax.swing.JFrame {
      // Obtener los datos de los campos
     String correo = txtCorreo.getText().trim();
     String username = txtUsername.getText().trim();
-    String contraseña = txtContraseña.getText();
-    String confirmarContraseña = txtConfirmarContraseña.getText();
+    String nombre = txtNombre.getText().trim();
+    String apellido = txtApellido.getText().trim();
+    String dni = jTextField1.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String contraseña = new String(txtContraseña.getPassword());
+    String confirmarContraseña = new String(txtConfirmarContraseña.getPassword());
     
-    // Validaciones básicas
-    if (correo.isEmpty() || username.isEmpty() || contraseña.isEmpty() || confirmarContraseña.isEmpty()) {
+    // Validaciones básicas (teléfono es opcional)
+    if (correo.isEmpty() || username.isEmpty() || nombre.isEmpty() || 
+        apellido.isEmpty() || dni.isEmpty() || contraseña.isEmpty() || confirmarContraseña.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-            "Por favor, complete todos los campos", 
+            "Por favor, complete todos los campos obligatorios:\n" +
+            "Correo, Username, Nombre, Apellido, DNI y Contraseña\n" +
+            "(Teléfono es opcional)", 
             "Campos vacíos", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Validar teléfono si se proporciona (debe tener 9 dígitos)
+    if (!telefono.isEmpty() && !telefono.matches("\\d{9}")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "El teléfono debe tener exactamente 9 dígitos", 
+            "Teléfono inválido", 
             javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
@@ -175,11 +240,54 @@ public class Registrar extends javax.swing.JFrame {
         return;
     }
     
-    // Validar longitud mínima de contraseña
-    if (contraseña.length() < 6) {
+    // Validar fortaleza de contraseña (requisitos de BCrypt)
+    if (contraseña.length() < 8) {
         javax.swing.JOptionPane.showMessageDialog(this, 
-            "La contraseña debe tener al menos 6 caracteres", 
+            "La contraseña debe tener al menos 8 caracteres", 
             "Contraseña muy corta", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Validar que contenga mayúscula, minúscula, número y carácter especial
+    if (!contraseña.matches(".*[A-Z].*")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "La contraseña debe contener al menos una letra mayúscula", 
+            "Contraseña débil", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if (!contraseña.matches(".*[a-z].*")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "La contraseña debe contener al menos una letra minúscula", 
+            "Contraseña débil", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if (!contraseña.matches(".*[0-9].*")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "La contraseña debe contener al menos un número", 
+            "Contraseña débil", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    if (!contraseña.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "La contraseña debe contener al menos un carácter especial\n" +
+            "(!@#$%^&*()_+-=[]{};':\"\\|,.<>/?)", 
+            "Contraseña débil", 
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Validar DNI (8 dígitos)
+    if (!dni.matches("\\d{8}")) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "El DNI debe tener exactamente 8 dígitos", 
+            "DNI inválido", 
             javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
@@ -207,23 +315,43 @@ public class Registrar extends javax.swing.JFrame {
             return;
         }
         
-        // Registrar usuario con correo
+        // Registrar usuario con correo y teléfono (la contraseña se encriptará automáticamente con BCrypt)
         ClienteFacade facadeConcreto = (ClienteFacade) facade;
-        boolean exito = facadeConcreto.registrarUsuarioConCorreo(
-            username,           // username
-            contraseña,         // contraseña
-            correo,            // correo
-            username,          // nombre (usando username como nombre)
-            "",                // apellido (vacío por ahora)
-            "",                // dni (vacío por ahora)
-            false              // descuento (false por defecto)
-        );
+        
+        // Usar el método que incluye teléfono si se proporciona, sino usar el método sin teléfono
+        boolean exito;
+        if (!telefono.isEmpty()) {
+            exito = facadeConcreto.registrarClienteYUsuarioConCorreoYTelefono(
+                username,           // username
+                contraseña,         // contraseña (se encriptará con BCrypt)
+                correo,            // correo
+                nombre,            // nombre
+                apellido,          // apellido
+                dni,               // dni
+                telefono,          // telefono
+                false              // descuento (false por defecto)
+            );
+        } else {
+            exito = facadeConcreto.registrarClienteYUsuarioConCorreo(
+                username,           // username
+                contraseña,         // contraseña (se encriptará con BCrypt)
+                correo,            // correo
+                nombre,            // nombre
+                apellido,          // apellido
+                dni,               // dni
+                false              // descuento (false por defecto)
+            );
+        }
         
         if (exito) {
             javax.swing.JOptionPane.showMessageDialog(this, 
-                "Usuario registrado exitosamente\n" +
+                "✅ Usuario registrado exitosamente\n\n" +
                 "Username: " + username + "\n" +
-                "Correo: " + correo + "\n\n" +
+                "Nombre completo: " + nombre + " " + apellido + "\n" +
+                "DNI: " + dni + "\n" +
+                "Correo: " + correo + "\n" +
+                "Teléfono: " + (telefono.isEmpty() ? "No proporcionado" : telefono) + "\n\n" +
+                "🔐 Contraseña encriptada con BCrypt\n" +
                 "Ahora puede iniciar sesión", 
                 "Registro exitoso", 
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -304,14 +432,23 @@ public class Registrar extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JButton btnRegistrado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField txtConfirmarContraseña;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JPasswordField txtConfirmarContraseña;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

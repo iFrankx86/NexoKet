@@ -104,6 +104,10 @@ public abstract class ProductoBase {
     
     public double getPrecioCompra() { return precioCompra; }
     public void setPrecioCompra(double precioCompra) { 
+        if (precioCompra < 0) {
+            // No permitir precios negativos
+            return;
+        }
         this.precioCompra = precioCompra;
         // Cuando cambio el precio de compra, recalculo el de venta
         calcularPrecioVentaAutomatico();
@@ -117,6 +121,10 @@ public abstract class ProductoBase {
     
     public int getStock() { return stock; }
     public void setStock(int stock) { 
+        if (stock < 0) {
+            // No permitir stock negativo
+            return;
+        }
         this.stock = stock; 
         this.fechaActualizacion = new Date();
     }

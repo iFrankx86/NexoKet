@@ -1,26 +1,50 @@
 
 package utp.edu.pe.nexoket.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
+import utp.edu.pe.nexoket.config.ConfigManager;
+
+/**
+ * Gestor de conexión a MongoDB usando patrón Singleton
+ * Configuración segura usando variables de entorno
+ * 
+ * @author NexoKet Team
+ */
 public class MongoDBConnection {
-    private static MongoDBConnection instance; // Instancia única
+    private static final Logger logger = LoggerFactory.getLogger(MongoDBConnection.class);
+    private static MongoDBConnection instance;
+    private MongoClient mongoClient;
     private MongoDatabase database;
-    // Constructor privado para evitar instanciación directa
+    
     private MongoDBConnection() {
-        // URL de conexión a MongoDB Atlas
-        String connectionString = "mongodb+srv://u22311204:frank@cluster0.zknqatn.mongodb.net/";
-        
-        // Crear el cliente y conectar a la base de datos
-        MongoClient mongoClient = MongoClients.create(connectionString);
-        database = mongoClient.getDatabase("NexoKet"); // Nombre de tu base de datos
+        try {
+            ConfigManager config = ConfigManager.getInstance();
+            String uri = config.getMongoUri();
+            String dbName = config.getMongoDatabase();
+            
+            logger.info("Conectando a MongoDB...");
+            mongoClient = MongoClients.create(uri);
+            database = mongoClient.getDatabase(dbName);
+            
+            // Verificar conexión
+            database.listCollectionNames().first();
+            
+            logger.info("✓ Conexión a MongoDB establecida: {}", dbName);
+        } catch (Exception e) {
+            logger.error("✗ Error al conectar con MongoDB", e);
+            throw new RuntimeException("No se pudo conectar a la base de datos", e);
+        }
     }
-    // Método estático para obtener la instancia única
+    
     public static MongoDBConnection getInstance() {
         if (instance == null) {
-            synchronized (MongoDBConnection.class) { // Bloqueo para evitar problemas en entornos multihilo
+            synchronized (MongoDBConnection.class) {
                 if (instance == null) {
                     instance = new MongoDBConnection();
                 }
@@ -28,8 +52,19 @@ public class MongoDBConnection {
         }
         return instance;
     }
-    // Método para obtener la base de datos
+    
     public MongoDatabase getDatabase() {
         return database;
+    }
+    
+    /**
+     * Cierra la conexión a MongoDB
+     * Debe llamarse al cerrar la aplicación
+     */
+    public void close() {
+        if (mongoClient != null) {
+            mongoClient.close();
+            logger.info("✓ Conexión a MongoDB cerrada");
+        }
     }
 }

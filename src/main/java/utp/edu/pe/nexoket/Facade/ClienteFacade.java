@@ -1,9 +1,9 @@
 package utp.edu.pe.nexoket.facade;
+import utp.edu.pe.nexoket.Facade.INexoKet.IClienteFacade;
 import utp.edu.pe.nexoket.dao.ClienteDAO;
 import utp.edu.pe.nexoket.dao.UserDAO;
 import utp.edu.pe.nexoket.modelo.Cliente;
 import utp.edu.pe.nexoket.modelo.User;
-import utp.edu.pe.nexoket.Facade.INexoKet.IClienteFacade;
 
 public class ClienteFacade implements IClienteFacade {
     private final ClienteDAO clienteDAO;
@@ -61,8 +61,8 @@ public class ClienteFacade implements IClienteFacade {
     public boolean registrarUsuario(String username, String contraseña, String nombre, String apellido, String dni, boolean descuento) {
         try {
             // Como la interfaz no incluye correo, usar string vacío por defecto
-            User user = new User(username, contraseña, "", nombre, apellido, dni, descuento);
-            userDAO.registrarUser(user);
+            User user = new User(username, "", "", nombre, apellido, dni, "", descuento);
+            userDAO.registrarUser(user, contraseña);
             return true;
         } catch (Exception e) {
             return false;
@@ -90,7 +90,7 @@ public class ClienteFacade implements IClienteFacade {
     @Override
     public boolean actualizarUsuario(String username, String contraseña, String nombre, String apellido, String dni, boolean descuento) {
         try {
-            User userActualizado = new User(username, contraseña, "", nombre, apellido, dni, descuento);
+            User userActualizado = new User(username, contraseña, "", nombre, apellido, dni, "", descuento);
             userDAO.actualizarUser(username, userActualizado);
             return true;
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class ClienteFacade implements IClienteFacade {
     @Override
     public boolean eliminarUsuario(String username) {
         try {
-            userDAO.eliminarUser(username);
+            userDAO.desactivarUser(username);
             return true;
         } catch (Exception e) {
             return false;
@@ -116,8 +116,8 @@ public class ClienteFacade implements IClienteFacade {
             clienteDAO.registrarCliente(cliente);
             
             // Registrar como usuario
-            User user = new User(username, contraseña, "", nombre, apellido, dni, descuento);
-            userDAO.registrarUser(user);
+            User user = new User(username, "", "", nombre, apellido, dni, "", descuento);
+            userDAO.registrarUser(user, contraseña);
             
             return true;
         } catch (Exception e) {
@@ -128,8 +128,8 @@ public class ClienteFacade implements IClienteFacade {
     // Métodos adicionales para manejar correo (no están en la interfaz pero los necesitas)
     public boolean registrarUsuarioConCorreo(String username, String contraseña, String correo, String nombre, String apellido, String dni, boolean descuento) {
         try {
-            User user = new User(username, contraseña, correo, nombre, apellido, dni, descuento);
-            userDAO.registrarUser(user);
+            User user = new User(username, "", correo, nombre, apellido, dni, "", descuento);
+            userDAO.registrarUser(user, contraseña);
             return true;
         } catch (Exception e) {
             return false;
@@ -138,7 +138,7 @@ public class ClienteFacade implements IClienteFacade {
 
     public boolean actualizarUsuarioConCorreo(String username, String contraseña, String correo, String nombre, String apellido, String dni, boolean descuento) {
         try {
-            User userActualizado = new User(username, contraseña, correo, nombre, apellido, dni, descuento);
+            User userActualizado = new User(username, contraseña, correo, nombre, apellido, dni, "", descuento);
             userDAO.actualizarUser(username, userActualizado);
             return true;
         } catch (Exception e) {
@@ -153,8 +153,24 @@ public class ClienteFacade implements IClienteFacade {
             clienteDAO.registrarCliente(cliente);
             
             // Registrar como usuario con correo
-            User user = new User(username, contraseña, correo, nombre, apellido, dni, descuento);
-            userDAO.registrarUser(user);
+            User user = new User(username, "", correo, nombre, apellido, dni, "", descuento);
+            userDAO.registrarUser(user, contraseña);
+            
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean registrarClienteYUsuarioConCorreoYTelefono(String username, String contraseña, String correo, String nombre, String apellido, String dni, String telefono, boolean descuento) {
+        try {
+            // Registrar como cliente con teléfono
+            Cliente cliente = new Cliente(nombre, apellido, dni, telefono, descuento);
+            clienteDAO.registrarCliente(cliente);
+            
+            // Registrar como usuario con correo Y teléfono (User hereda teléfono de Cliente)
+            User user = new User(username, "", correo, nombre, apellido, dni, telefono, descuento);
+            userDAO.registrarUser(user, contraseña);
             
             return true;
         } catch (Exception e) {
